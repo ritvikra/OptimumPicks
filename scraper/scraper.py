@@ -1,6 +1,7 @@
 import psycopg2
 import requests
 from bs4 import BeautifulSoup
+from datetime import datetime
 
 
 # PostgreSQL connection setup
@@ -72,6 +73,90 @@ def scrapenfldata():
         })
     return games_data
 
+def scrapenbadata():
+    cover_books = ['ProphetX', 'Novig', 'BetMGM', 'Bet365', 'FanDuel', 'DraftKings']
+    url = "https://www.covers.com/sport/basketball/nba/odds"
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    total_table = soup.find("table", id="spread-total-table")
+    odds_table = total_table.find("tbody", class_="odds-tbody")
+    tables = odds_table.find_all("tr", class_ ="oddsGameRow")
+    games_data = []
+    for table in tables:
+        dateofgame = table.find("div", class_="td-cell game-time")
+        date_part = dateofgame.find_all("span")[0].text.strip()  
+        time_part = dateofgame.find_all("span")[1].text.strip() 
+        curr_year = 2025
+        if 'Today' in date_part:
+            date_part = datetime.now().strftime("%b %d,")  # Format today's date as "Jan 9"
+        datetime_string = f"{curr_year} {date_part} {time_part}" 
+        sql_friendly_datetime = datetime.strptime(datetime_string, "%Y %b %d, %I:%M %p").strftime("%Y-%m-%d %H:%M:%S")
+        print(f"Date and Time: {sql_friendly_datetime}")
+        away_team = table.find("div", class_='td-cell away-cell')
+        if away_team:
+            away_team = away_team.find("strong" ).text
+            print(f"Away Team: {away_team} ")
+        home_team = table.find("div", class_='td-cell home-cell')
+        if home_team:
+            home_team = home_team.find("strong" ).text
+            print(f"Home Team: {home_team} ")  
+        books = table.find_all("td", class_="liveOddsCell")
+        game_odds = []
+        if books:
+            count = 0
+            for book in books:
+                book_name = cover_books[count]
+                odds = book.find_all("span", class_="__american")
+                lines = book.find_all("a", class_="odds-cta")
+                if lines:
+                    overline = lines[0].contents[0].strip()
+                    spreadline = lines[1].contents[0].strip()
+                    if overline.split(" ")[0] == 'o':
+                        overline = overline.split(" ")[1]
+                    elif spreadline.split(" ")[0] == 'o':
+                        spreadline = spreadline.split(" ")[1]
+                    overodds = odds[0].text
+                    spreadodds = odds[1].text
+                    print(f"Sportsbook: {book_name}")
+                    print(f"Total Score Line: {overline}", f"Odds: {overodds}")
+                    print(f"Spread: {spreadline}", f"Odds: {spreadodds}")
+                    game_odds.append({
+                    "sportsbook": book_name,
+                    "type": "total",
+                    "value": float(overline),  # Extract numeric part from 'o 41.5'
+                    "odds": int(overodds)
+                    })
+                    game_odds.append({
+                        "sportsbook": book_name,
+                        "type": "spread",
+                        "value": float(spreadline),  # Assuming it's already a numeric string
+                        "odds": int(spreadodds)
+                    })
+                else:
+                    print(f"Sportsbook: {book_name}")
+                    print("No lines available")
+                    game_odds.append({
+                    "sportsbook": book_name,
+                    "type": "total",
+                    "value": 0,  # Extract numeric part from 'o 41.5'
+                    "odds": 0
+                    })
+                    game_odds.append({
+                        "sportsbook": book_name,
+                        "type": "spread",
+                        "value": 0,  # Assuming it's already a numeric string
+                        "odds": 0,
+                    })
+                count += 1
+            games_data.append({
+                "league": "NBA",
+                "home_team": home_team,
+                "away_team": away_team,
+                "odds": game_odds
+            })
+        return games_data
+
+
 
 def insert_data(data):
     for game in data:
@@ -109,8 +194,10 @@ def insert_data(data):
 
 if __name__ == "__main__":
     try:
-        scraped_data = scrapenfldata()
-        insert_data(scraped_data)
+        ##scraped_data = scrapenfldata()
+        ##nsert_data(scraped_data)
+        scraped_nba = scrapenbadata()
+        insert_data(scraped_nba)
         print("Data inserted successfully!")
     except Exception as e:
         print(f"An error occurred: {e}")
