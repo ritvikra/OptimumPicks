@@ -84,14 +84,23 @@ def scrapenbadata():
     games_data = []
     for table in tables:
         dateofgame = table.find("div", class_="td-cell game-time")
-        date_part = dateofgame.find_all("span")[0].text.strip()  
-        time_part = dateofgame.find_all("span")[1].text.strip() 
+        livedate = table.find("div", class_="td-cell game-time live-status")
+        if dateofgame:
+            dateandtime = dateofgame.find_all("span")
+            date_part = dateandtime[0].text.strip()
+            time_part = dateandtime[1].text.strip()  
+        elif livedate:
+            dateandtime = livedate.find_all("span")
+            date_part = datetime.now().strftime("%b %d,")  # Format today's date as "Jan 9"
+            time_part = dateandtime[1].text.strip()
         curr_year = 2025
         if 'Today' in date_part:
             date_part = datetime.now().strftime("%b %d,")  # Format today's date as "Jan 9"
-        datetime_string = f"{curr_year} {date_part} {time_part}" 
-        sql_friendly_datetime = datetime.strptime(datetime_string, "%Y %b %d, %I:%M %p").strftime("%Y-%m-%d %H:%M:%S")
-        print(f"Date and Time: {sql_friendly_datetime}")
+        date_part = date_part.strip(",")
+        datetime_string = f"{curr_year} {date_part}" 
+        sql_friendly_datetime = datetime.strptime(datetime_string, "%Y %b %d").strftime("%Y-%m-%d")
+        print(f"Date: {sql_friendly_datetime}")
+        print(f"Time: {time_part}")
         away_team = table.find("div", class_='td-cell away-cell')
         if away_team:
             away_team = away_team.find("strong" ).text
@@ -121,12 +130,14 @@ def scrapenbadata():
                     print(f"Total Score Line: {overline}", f"Odds: {overodds}")
                     print(f"Spread: {spreadline}", f"Odds: {spreadodds}")
                     game_odds.append({
+                    "game_id": home_team + away_team + date_part,
                     "sportsbook": book_name,
                     "type": "total",
                     "value": float(overline),  # Extract numeric part from 'o 41.5'
                     "odds": int(overodds)
                     })
                     game_odds.append({
+                        "game_id": home_team + away_team + date_part,
                         "sportsbook": book_name,
                         "type": "spread",
                         "value": float(spreadline),  # Assuming it's already a numeric string
@@ -136,12 +147,14 @@ def scrapenbadata():
                     print(f"Sportsbook: {book_name}")
                     print("No lines available")
                     game_odds.append({
+                    "game_id": home_team + away_team + date_part,
                     "sportsbook": book_name,
                     "type": "total",
                     "value": 0,  # Extract numeric part from 'o 41.5'
                     "odds": 0
                     })
                     game_odds.append({
+                        "game_id": home_team + away_team + date_part,
                         "sportsbook": book_name,
                         "type": "spread",
                         "value": 0,  # Assuming it's already a numeric string
@@ -149,45 +162,68 @@ def scrapenbadata():
                     })
                 count += 1
             games_data.append({
+                "id" : home_team + away_team + sql_friendly_datetime, 
+                "date": sql_friendly_datetime,
+                "time": time_part,
                 "league": "NBA",
                 "home_team": home_team,
                 "away_team": away_team,
-                "odds": game_odds
+                "odds": game_odds,
             })
-        return games_data
+    return games_data
 
 
 
 def insert_data(data):
     for game in data:
-        # Insert league (ignore duplicates using ON CONFLICT or check manually)
+        # Insert league (use ON CONFLICT to handle duplicates)
         cursor.execute(
-            "INSERT INTO leagues (name) VALUES (%s) ON CONFLICT (name) DO NOTHING RETURNING id",
+            """
+            INSERT INTO leagues (name) 
+            VALUES (%s) 
+            ON CONFLICT (name) DO NOTHING 
+            RETURNING name
+            """,
             (game["league"],)
         )
-        league_id = cursor.fetchone()[0] if cursor.rowcount else None
+        league_name = cursor.fetchone()[0] if cursor.rowcount else game["league"]
 
         # Insert game
         cursor.execute(
             """
-            INSERT INTO games (league_id, home_team, away_team) 
-            VALUES (%s, %s, %s) 
+            INSERT INTO games (id, league_id, date, time, home_team, away_team) 
+            VALUES (%s, %s, %s, %s, %s, %s) 
+            ON CONFLICT (id) DO NOTHING 
             RETURNING id
             """,
-            (league_id, game["home_team"], game["away_team"])
+            (
+                game["id"],
+                league_name,  # Use league name as league_id
+                game["date"],
+                game["time"],  # Use the provided time as a VARCHAR
+                game["home_team"],
+                game["away_team"]
+            )
         )
-        game_id = cursor.fetchone()[0]
+        game_id = cursor.fetchone()[0] if cursor.rowcount else game["id"]
 
         # Insert odds
         for odd in game["odds"]:
             cursor.execute(
                 """
-                INSERT INTO odds (game_id, sportsbook, type, value, odds)
+                INSERT INTO odds (game_id, sportsbook, type, value, odds) 
                 VALUES (%s, %s, %s, %s, %s)
+                ON CONFLICT (game_id, sportsbook, type) DO UPDATE 
+                SET value = EXCLUDED.value, odds = EXCLUDED.odds
                 """,
-                (game_id, odd["sportsbook"], odd["type"], odd["value"], odd["odds"])
+                (
+                    game_id,
+                    odd["sportsbook"],
+                    odd["type"],
+                    odd["value"],
+                    odd["odds"]
+                )
             )
-
     # Commit the transaction
     conn.commit()
 

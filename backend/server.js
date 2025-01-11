@@ -1,8 +1,9 @@
 const express = require("express");
 const { Pool } = require("pg");
 const cors = require("cors");
-
 const app = express();
+
+
 const pool = new Pool({
   user: "ritvikrallapalli",
   host: "localhost",
@@ -26,6 +27,7 @@ const queryDatabase = async (query, params) => {
   }
 };
 
+
 // Endpoint to fetch all leagues
 app.get("/leagues", async (req, res) => {
   try {
@@ -41,14 +43,15 @@ app.get("/games/:league", async (req, res) => {
   try {
     const league = req.params.league;
     const games = await queryDatabase(
-      `SELECT g.id, g.date, g.home_team, g.away_team, l.name as league
+      `SELECT g.id, g.date, g.time, g.home_team, g.away_team, l.name as league
        FROM games g
-       JOIN leagues l ON g.league_id = l.id
+       JOIN leagues l ON g.league_id = l.name
        WHERE l.name = $1`,
       [league]
     );
     res.json(games);
   } catch (err) {
+    console.error("Error fetching games by league:", err);
     res.status(500).send("Server Error");
   }
 });
@@ -56,7 +59,11 @@ app.get("/games/:league", async (req, res) => {
 // Endpoint to fetch all odds
 app.get("/odds", async (req, res) => {
   try {
-    const odds = await queryDatabase("SELECT id, game_id, sportsbook, type, value, odds FROM odds");
+    const odds = await queryDatabase(
+      `SELECT o.id, o.game_id, g.home_team, g.away_team, o.sportsbook, o.type, o.value, o.odds
+       FROM odds o
+       JOIN games g ON o.game_id = g.id`
+    );
     res.json(odds);
   } catch (err) {
     console.error("Error fetching odds:", err);
@@ -65,63 +72,21 @@ app.get("/odds", async (req, res) => {
 });
 
 // Endpoint to fetch odds by game ID
-app.get("/odds", async (req, res) => {
+app.get("/odds/:gameId", async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT 
-        games.id AS game_id,
-        games.home_team,
-        games.away_team,
-        odds.sportsbook,
-        odds.type,
-        odds.value,
-        odds.odds
-      FROM odds
-      JOIN games ON odds.game_id = games.id
-    `);
-    res.json(result.rows);
+    const gameId = req.params.gameId;
+    const odds = await queryDatabase(
+      `SELECT o.id, o.game_id, g.home_team, g.away_team, o.sportsbook, o.type, o.value, o.odds
+       FROM odds o
+       JOIN games g ON o.game_id = g.id
+       WHERE o.game_id = $1`,
+      [gameId]
+    );
+    res.json(odds);
   } catch (err) {
-    console.error("Error fetching odds:", err);
+    console.error("Error fetching odds by game ID:", err);
     res.status(500).send("Server Error");
   }
 });
 
-// Endpoint to insert scraped data
-app.post("/insert-scraped-data", async (req, res) => {
-  const data = req.body; // Expecting the same format as Python script
-  try {
-    for (const game of data) {
-      const leagueResult = await queryDatabase(
-        `INSERT INTO leagues (name) VALUES ($1) 
-         ON CONFLICT (name) DO NOTHING RETURNING id`,
-        [game.league]
-      );
-      const leagueId = leagueResult.length ? leagueResult[0].id : null;
-
-      const gameResult = await queryDatabase(
-        `INSERT INTO games (league_id, date, home_team, away_team) 
-         VALUES ($1, $2, $3, $4) RETURNING id`,
-        [leagueId, game.date, game.home_team, game.away_team]
-      );
-      const gameId = gameResult[0].id;
-
-      for (const odd of game.odds) {
-        await queryDatabase(
-          `INSERT INTO odds (game_id, sportsbook, type, value, odds)
-           VALUES ($1, $2, $3, $4, $5)`,
-          [gameId, odd.sportsbook, odd.type, odd.value, odd.odds]
-        );
-      }
-    }
-    res.status(201).send("Data inserted successfully");
-  } catch (err) {
-    console.error("Error inserting data:", err);
-    res.status(500).send("Error inserting data");
-  }
-});
-
-// Server setup
-const PORT = 5001;
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+app.listen(5001, () => console.log(`Server running on http://localhost:${5001}`));
