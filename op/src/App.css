@@ -1,38 +1,121 @@
-.App {
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #fff; /* White background */
+}
+
+.sportsbook-header {
+  display: flex;
+  align-items: center; /* Vertically center */
+  justify-content: center; /* Horizontally center */
+  background-color: #004aad; /* Blue background */
+  border-radius: 8px; /* Rounded edges */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 80px; /* Fixed width for the container */
+  height: 80px; /* Fixed height for the container */
+  overflow: hidden; /* Prevent anything from overflowing */
+}
+
+.sportsbook-logo {
+  max-width: 60%; /* Restrict the logo width to 60% of the container */
+  max-height: 60%; /* Restrict the logo height to 60% of the container */
+  object-fit: contain; /* Ensure logos maintain aspect ratio */
+  margin: 0; /* Remove any potential default margins */
+  display: block; /* Ensure the logo is treated as a block element */
+}
+.game-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* Space between the logos and text */
+  margin: 20px 0;
+}
+
+.team-logo {
+  width: 100px; /* Adjust the size of the logos */
+  height: auto;
+}
+
+.vs-info {
+  font-size: 16px;
+  font-weight: bold;
+  color: #004aad; /* Blue color to match the theme */
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App {
+  padding: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.title {
+  text-align: center;
+  font-size: 40px;
+  color: #000000; /* Dark blue title */
+  margin-bottom: 30px;
+  font-family: 'Times New Roman', serif; /* Times New Roman font */
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.odds-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 10px 15px; /* Add spacing between columns (10px) and rows (15px) */
+}
+
+.odds-table th {
+  background-color: #004aad; /* Dark blue for the header */
+  color: #fff;
+  padding: 15px;
+  text-align: center;
+  border: none;
+  border-radius: 8px; /* Rounded edges for floating header */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for floating effect */
+  position: sticky; /* Sticky header */
+  top: 0; /* Stick to the top of the viewport */
+  z-index: 2; /* Ensure it appears above other elements */
+}
+
+.odds-table td {
+  background-color: #fff;
+  text-align: center;
+  padding: 15px;
+  border: none;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for floating effect */
+  border-radius: 8px; /* Rounded edges for cells */
+  border: 2px solid #004aad; /* Blue border for floating blocks */
+}
+
+.game-cell {
+  font-weight: bold;
+  text-align: left;
+  padding-left: 20px;
+  color: #004aad; /* Blue color for game names */
+}
+
+.sportsbook-cell .odds-row {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.odds-value {
+  font-weight: bold;
+  font-size: 16px;
+  color: #333; /* Black for the main odds value */
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.odds-grey {
+  font-size: 14px;
+  color: #999; /* Grey for the odds value */
+}
+
+.odds-table tr td:first-child {
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
+}
+
+.odds-table tr td:last-child {
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
 }

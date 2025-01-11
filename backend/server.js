@@ -60,7 +60,7 @@ app.get("/games/:league", async (req, res) => {
 app.get("/odds", async (req, res) => {
   try {
     const odds = await queryDatabase(
-      `SELECT o.id, o.game_id, g.home_team, g.away_team, o.sportsbook, o.type, o.value, o.odds
+      `SELECT o.id, o.game_id, g.home_team, g.away_team, o.sportsbook, o.type, o.value, o.odds, g.date, g.time
        FROM odds o
        JOIN games g ON o.game_id = g.id`
     );

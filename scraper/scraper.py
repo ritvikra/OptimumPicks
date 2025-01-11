@@ -124,6 +124,9 @@ def scrapenbadata():
                         overline = overline.split(" ")[1]
                     elif spreadline.split(" ")[0] == 'o':
                         spreadline = spreadline.split(" ")[1]
+                        temp = overline 
+                        overline = spreadline
+                        spreadline = temp
                     overodds = odds[0].text
                     spreadodds = odds[1].text
                     print(f"Sportsbook: {book_name}")
