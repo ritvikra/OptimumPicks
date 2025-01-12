@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     const fetchOddsData = async () => {
       try {
-        const response = await fetch("http://localhost:5002/odds");
+        const response = await fetch("http://localhost:5001/odds");
         const data = await response.json();
         setOddsData(data);
         setLoading(false);
@@ -20,6 +20,8 @@ const App = () => {
         setLoading(false);
       }
     };
+
+    
 
     fetchOddsData();
   }, []);
