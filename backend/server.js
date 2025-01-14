@@ -16,7 +16,9 @@ const pool = new Pool({
 
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: "https://your-frontend.vercel.app", // Replace with your React app's domain
+}));
 app.use(express.json());
 
 // Root route
