@@ -12,13 +12,14 @@ const pool = new Pool({
   port: 5432,
 });
 
-app.get("/", (req,res) => {
-  res.json("Hello");
-});
-
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+app.use((req, res) => {
+  console.error(`Route not found: ${req.path}`);
+  res.status(404).send("Route not found");
+});
 
 // Utility function to query the database
 const queryDatabase = async (query, params) => {
