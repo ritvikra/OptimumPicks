@@ -12,6 +12,10 @@ const pool = new Pool({
   port: 5432,
 });
 
+app.get("/", (req,res) => {
+  res.json("Hello");
+});
+
 // Middleware
 app.use(cors());
 app.use(express.json());
