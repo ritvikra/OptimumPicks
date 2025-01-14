@@ -2,19 +2,27 @@ const express = require("express");
 const { Pool } = require("pg");
 const cors = require("cors");
 const app = express();
+require("dotenv").config();
 
+console.log("DATABASE_URL:", process.env.DATABASE_URL);
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
   ssl: {
-    rejectUnauthorized: false, // Needed for Railway's hosted databases
+    rejectUnauthorized: false, // Required for Railway
   },
 });
+
 
 
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Root route
+app.get("/", (req, res) => {
+  res.send("Welcome to the API. Available endpoints: /leagues, /games/:league, /odds, /odds/:gameId");
+});
 
 // Utility function to query the database
 const queryDatabase = async (query, params) => {
@@ -26,7 +34,6 @@ const queryDatabase = async (query, params) => {
     throw err;
   }
 };
-
 
 // Endpoint to fetch all leagues
 app.get("/leagues", async (req, res) => {
@@ -89,4 +96,5 @@ app.get("/odds/:gameId", async (req, res) => {
   }
 });
 
+// Start the server
 app.listen(5001, () => console.log(`Server running on http://localhost:${5001}`));
