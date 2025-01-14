@@ -16,9 +16,7 @@ const pool = new Pool({
 
 
 // Middleware
-app.use(cors({
-  origin: "https://optimum-picks-frontend.vercel.app", // Replace with your React app's domain
-}));
+app.use(cors());
 app.use(express.json());
 
 // Root route
