@@ -11,7 +11,7 @@ const App = () => {
   useEffect(() => {
     const fetchOddsData = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/odds`);
+        const response = await fetch("https://optimum-picks-api.vercel.app/odds");
         const data = await response.json();
         setOddsData(data);
         setLoading(false);
