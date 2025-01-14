@@ -6,11 +6,11 @@ from datetime import datetime
 
 # PostgreSQL connection setup
 conn = psycopg2.connect(
-    dbname="optimumdb",     # Replace with your database name
-    user="ritvikrallapalli",      # Replace with your PostgreSQL username
-    password="postgrepass",  # Replace with your PostgreSQL password
-    host="localhost",     # Replace with your host
-    port="5432"           # Default PostgreSQL port
+    dbname="railway",     # Replace with your database name
+    user="postgres",      # Replace with your PostgreSQL username
+    password="xKnGEgrvZXNTBjhAVwrPARLIuaigbZKX",  # Replace with your PostgreSQL password
+    host="autorack.proxy.rlwy.net",     # Replace with your host
+    port="26237"           # Default PostgreSQL port
 )
 cursor = conn.cursor()
 
