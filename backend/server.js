@@ -98,5 +98,4 @@ app.get("/odds/:gameId", async (req, res) => {
   }
 });
 
-// Start the server
-app.listen(5001, () => console.log(`Server running on http://localhost:${5001}`));
+module.exports = app;
