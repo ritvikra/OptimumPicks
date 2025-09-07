@@ -19,9 +19,10 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 interface BettingTableProps {
   data: BettingData[];
   tableType: 'ev' | 'arb';
+  isLightMode?: boolean;
 }
 
-const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
+const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMode = false }) => {
   // Sort data based on either EV% or ARB% (depending on tableType)
   const sortedData = [...data].sort((a, b) => {
     if (tableType === 'ev' && a.expectedValue && b.expectedValue) {
@@ -36,12 +37,12 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
     <TableContainer 
       component={Paper} 
       sx={{ 
-        background: 'rgba(0, 0, 0, 0.4)', 
-        color: 'rgba(255, 255, 255, 0.85)', 
+        background: isLightMode ? 'rgba(255, 255, 255, 0.9)' : 'rgba(0, 0, 0, 0.4)', 
+        color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
         boxShadow: 'none',
         backdropFilter: 'blur(10px)',
         borderRadius: 3,
-        border: '1px solid rgba(255, 255, 255, 0.05)',
+        border: isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.05)',
         overflow: 'auto',
         width: '100%',
         height: 'auto',
@@ -54,81 +55,81 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
         sx={{ width: '100%', tableLayout: 'fixed' }}
       >
         <TableHead>
-          <TableRow sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          <TableRow sx={{ borderBottom: isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.1)' }}>
             {/* First column changes based on table type */}
             <TableCell sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)', 
+              color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
               fontSize: '0.75rem', 
               letterSpacing: '1px', 
               fontWeight: 300, 
               width: '10%',
-              background: 'rgba(0, 0, 0, 0.5)'
+              background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
             }}>
               {tableType === 'ev' ? '+EV%' : 'ARB%'}
             </TableCell>
             <TableCell sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)', 
+              color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
               fontSize: '0.75rem', 
               letterSpacing: '1px', 
               fontWeight: 300, 
               width: '30%',
-              background: 'rgba(0, 0, 0, 0.5)'
+              background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
             }}>EVENT</TableCell>
             <TableCell sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)', 
+              color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
               fontSize: '0.75rem', 
               letterSpacing: '1px', 
               fontWeight: 300, 
               width: '14%',
-              background: 'rgba(0, 0, 0, 0.5)'
+              background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
             }}>MARKET</TableCell>
             <TableCell sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)', 
+              color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
               fontSize: '0.75rem', 
               letterSpacing: '1px', 
               fontWeight: 300, 
               width: '12%',
-              background: 'rgba(0, 0, 0, 0.5)'
+              background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
             }}>BOOKS</TableCell>
             <TableCell sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)', 
+              color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
               fontSize: '0.75rem', 
               letterSpacing: '1px', 
               fontWeight: 300, 
               width: '14%',
-              background: 'rgba(0, 0, 0, 0.5)'
+              background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
             }}>1-CLICK BET</TableCell>
             {/* Show Probability only in EV table */}
             {tableType === 'ev' && (
               <TableCell sx={{ 
-                color: 'rgba(255, 255, 255, 0.6)', 
+                color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
                 fontSize: '0.75rem', 
                 letterSpacing: '1px', 
                 fontWeight: 300, 
                 width: '10%',
-                background: 'rgba(0, 0, 0, 0.5)'
+                background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
               }}>PROBABILITY</TableCell>
             )}
             <TableCell sx={{ 
-              color: 'rgba(255, 255, 255, 0.6)', 
+              color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
               fontSize: '0.75rem', 
               letterSpacing: '1px', 
               fontWeight: 300, 
               width: '8%',
-              background: 'rgba(0, 0, 0, 0.5)'
+              background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
             }}>BET SIZE</TableCell>
             {/* Show Bet Size Ratio only in Arbitrage table */}
             {tableType === 'arb' && (
               <TableCell sx={{ 
-                color: 'rgba(255, 255, 255, 0.6)', 
+                color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
                 fontSize: '0.75rem', 
                 letterSpacing: '1px', 
                 fontWeight: 300, 
                 width: '10%',
-                background: 'rgba(0, 0, 0, 0.5)'
+                background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
               }}>BET SIZE RATIO</TableCell>
             )}
-            <TableCell sx={{ width: '5%', background: 'rgba(0, 0, 0, 0.5)' }}></TableCell>
+            <TableCell sx={{ width: '5%', background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)' }}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -136,9 +137,9 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
             <TableRow 
               key={row.id}
               sx={{ 
-                '&:nth-of-type(odd)': { background: 'rgba(0, 0, 0, 0.2)' },
-                '&:nth-of-type(even)': { background: 'rgba(255, 255, 255, 0.02)' },
-                '&:hover': { background: 'rgba(255, 255, 255, 0.05)' },
+                '&:nth-of-type(odd)': { background: isLightMode ? 'rgba(0, 0, 0, 0.02)' : 'rgba(0, 0, 0, 0.2)' },
+                '&:nth-of-type(even)': { background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.02)' },
+                '&:hover': { background: isLightMode ? 'rgba(0, 0, 0, 0.08)' : 'rgba(255, 255, 255, 0.05)' },
                 borderBottom: 'none',
                 transition: 'background 0.2s ease',
               }}
@@ -151,15 +152,15 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                   gap: 1
                 }}>
                   <Box sx={{ 
-                    background: 'rgba(0, 0, 0, 0.3)',
+                    background: isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(0, 0, 0, 0.3)',
                     borderRadius: '8px',
                     px: 1.5,
                     py: 0.75,
-                    border: '1px solid rgba(255, 255, 255, 0.05)'
+                    border: isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.05)'
                   }}>
                     {tableType === 'ev' ? (
                       <Typography sx={{ 
-                        color: row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.9)' : 'rgba(255, 255, 255, 0.8)', 
+                        color: row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.9)' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'), 
                         fontWeight: 500,
                         letterSpacing: '0.5px'
                       }}>
@@ -167,7 +168,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                       </Typography>
                     ) : (
                       <Typography sx={{ 
-                        color: row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.9)' : 'rgba(255, 255, 255, 0.8)', 
+                        color: row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.9)' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'), 
                         fontWeight: 500,
                         letterSpacing: '0.5px'
                       }}>
@@ -176,7 +177,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                     )}
                   </Box>
                   <Typography variant="caption" sx={{ 
-                    color: 'rgba(255, 255, 255, 0.5)',
+                    color: isLightMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)',
                     fontWeight: 300,
                     letterSpacing: '0.5px',
                     fontSize: '0.7rem'
@@ -185,10 +186,10 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                   </Typography>
                 </Box>
               </TableCell>
-              <TableCell sx={{ color: 'rgba(255, 255, 255, 0.85)', border: 'none' }}>
+              <TableCell sx={{ color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', border: 'none' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                   <Typography variant="body2" sx={{ 
-                    color: 'rgba(255, 255, 255, 0.5)', 
+                    color: isLightMode ? 'rgba(0, 0, 0, 0.5)' : 'rgba(255, 255, 255, 0.5)', 
                     fontSize: '0.7rem',
                     fontWeight: 300,
                     letterSpacing: '0.5px'
@@ -196,7 +197,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                     {row.eventDate} at {row.eventTime}
                   </Typography>
                   <Typography variant="body1" sx={{ 
-                    color: 'rgba(255, 255, 255, 0.85)', 
+                    color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
                     fontWeight: 400,
                     letterSpacing: '0.5px'
                   }}>
@@ -205,7 +206,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                 </Box>
               </TableCell>
               <TableCell sx={{ 
-                color: 'rgba(255, 255, 255, 0.85)', 
+                color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
                 border: 'none',
                 fontWeight: 300,
                 letterSpacing: '0.3px'
@@ -278,25 +279,25 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                     }
                     sx={{ 
                       bgcolor: tableType === 'ev'
-                        ? (row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.2)' : 'rgba(255, 255, 255, 0.1)')
-                        : (row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.2)' : 'rgba(255, 255, 255, 0.1)'),
+                        ? (row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.2)' : (isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)'))
+                        : (row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.2)' : (isLightMode ? 'rgba(0, 0, 0, 0.1)' : 'rgba(255, 255, 255, 0.1)')),
                       color: tableType === 'ev'
-                        ? (row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.9)' : 'rgba(255, 255, 255, 0.8)')
-                        : (row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.9)' : 'rgba(255, 255, 255, 0.8)'),
+                        ? (row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.9)' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'))
+                        : (row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.9)' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)')),
                       fontWeight: 400,
                       letterSpacing: '0.5px',
                       fontSize: '0.7rem',
                       height: 24,
                       border: tableType === 'ev'
-                        ? (row.expectedValue && row.expectedValue > 10 ? '1px solid rgba(0, 255, 171, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)')
-                        : (row.arbPercentage && row.arbPercentage > 2.5 ? '1px solid rgba(255, 200, 50, 0.3)' : '1px solid rgba(255, 255, 255, 0.1)'),
+                        ? (row.expectedValue && row.expectedValue > 10 ? '1px solid rgba(0, 255, 171, 0.3)' : (isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.1)'))
+                        : (row.arbPercentage && row.arbPercentage > 2.5 ? '1px solid rgba(255, 200, 50, 0.3)' : (isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.1)')),
                       borderRadius: '12px'
                     }}
                     size="small"
                     icon={<ArrowForwardIcon style={{ 
                       color: tableType === 'ev'
-                        ? (row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.9)' : 'rgba(255, 255, 255, 0.8)')
-                        : (row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.9)' : 'rgba(255, 255, 255, 0.8)'),
+                        ? (row.expectedValue && row.expectedValue > 10 ? 'rgba(0, 255, 171, 0.9)' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)'))
+                        : (row.arbPercentage && row.arbPercentage > 2.5 ? 'rgba(255, 200, 50, 0.9)' : (isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)')),
                       fontSize: '14px' 
                     }} />}
                   />
@@ -305,7 +306,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
               {/* Show Probability only in EV table */}
               {tableType === 'ev' && (
                 <TableCell sx={{ 
-                  color: 'rgba(255, 255, 255, 0.85)', 
+                  color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
                   border: 'none',
                   fontWeight: 300,
                   letterSpacing: '0.5px'
@@ -314,7 +315,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                 </TableCell>
               )}
               <TableCell sx={{ 
-                color: 'rgba(255, 255, 255, 0.85)', 
+                color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
                 border: 'none',
                 fontWeight: 400,
                 letterSpacing: '0.5px'
@@ -324,7 +325,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
               {/* Show Bet Size Ratio only in Arbitrage table */}
               {tableType === 'arb' && (
                 <TableCell sx={{ 
-                  color: 'rgba(255, 255, 255, 0.85)', 
+                  color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
                   border: 'none',
                   fontWeight: 300,
                   letterSpacing: '0.5px'
@@ -333,7 +334,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType }) => {
                 </TableCell>
               )}
               <TableCell sx={{ border: 'none' }}>
-                <IconButton size="small" sx={{ color: 'rgba(255, 255, 255, 0.4)', '&:hover': { color: 'rgba(255, 255, 255, 0.8)' } }}>
+                <IconButton size="small" sx={{ color: isLightMode ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.4)', '&:hover': { color: isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)' } }}>
                   <MoreVertIcon fontSize="small" />
                 </IconButton>
               </TableCell>
