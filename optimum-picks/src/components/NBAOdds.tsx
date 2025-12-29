@@ -192,7 +192,7 @@ const NBAOdds: React.FC = () => {
 
     (async () => {
       try {
-        const res = await fetch("/api/scoreboard");
+        const res = await fetch("/scoreboard.json ");
         const text = await res.text();
         if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0, 180)}`);
         const json = JSON.parse(text);
