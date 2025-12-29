@@ -13,6 +13,7 @@ import OptimumTable from './components/OptimumTable';
 import Dashboard from './components/Dashboard';
 import { mockData, optimumData } from './data/mockData';
 import './App.css';
+import NBAOdds from './components/NBAOdds';
 
 // Define light and dark themes
 const darkTheme = createTheme({
@@ -72,7 +73,7 @@ const lightTheme = createTheme({
 });
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'ev' | 'arb' | 'opt' | 'analytics'>('ev');
+  const [activeTab, setActiveTab] = useState<'ev' | 'arb' | 'opt' | 'nba' | 'analytics'>('ev');
   const [isLightMode, setIsLightMode] = useState(false);
 
   // Determine which theme to use based on active tab and mode
@@ -170,7 +171,25 @@ function App() {
             >
               Optimums
             </Button>
-            
+            <Button 
+              onClick={() => setActiveTab('nba')}
+              sx={{ 
+                color: activeTab === 'nba' 
+                  ? (isLightMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)') 
+                  : (isLightMode ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'), 
+                textTransform: 'none',
+                fontWeight: 300,
+                letterSpacing: '0.5px',
+                fontSize: '0.9rem',
+                marginRight: 2,
+                '&:hover': {
+                  backgroundColor: isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'
+                }
+              }}
+            >
+              NBA odds
+            </Button>
+
             <Button 
               onClick={() => setActiveTab('analytics')}
               sx={{ 
@@ -224,7 +243,11 @@ function App() {
                   ? 'Positive Expected Value (EV) Bets' 
                   : activeTab === 'arb' 
                     ? 'Arbitrage Opportunities' 
-                    : 'Optimum Prediction Differences'
+                    : activeTab === 'opt'
+                      ? 'Optimum Prediction Differences'
+                      : activeTab === 'nba'
+                        ? 'NBA odds'
+                        : ''
                 }
               </Typography>
               
@@ -351,7 +374,9 @@ function App() {
             {activeTab === 'opt' && (
               <OptimumTable data={optimumData} />
             )}
-            
+            {activeTab === 'nba' && (
+              <NBAOdds />
+            )}
             {activeTab === 'analytics' && (
               <Dashboard data={mockData} />
             )}
