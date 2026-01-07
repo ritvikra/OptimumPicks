@@ -187,7 +187,7 @@ function App() {
                 }
               }}
             >
-              NBA odds
+              NBA Odds
             </Button>
 
             <Button 
@@ -246,7 +246,7 @@ function App() {
                     : activeTab === 'opt'
                       ? 'Optimum Prediction Differences'
                       : activeTab === 'nba'
-                        ? 'NBA odds'
+                        ? 'NBA Odds'
                         : ''
                 }
               </Typography>
