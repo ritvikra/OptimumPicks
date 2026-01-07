@@ -1,0 +1,17 @@
+name: Update Odds
+on:
+  schedule:
+    - cron: "0 */2 * * *"  # Every 2h
+  workflow_dispatch:
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with: { node-version: 20 }
+    - run: node optimum-picks/fetchScoreboard.mjs  # Your script
+    - uses: EndBug/add-and-commit@v9
+      with:
+        add: 'public/scoreboard.json'
+        message: 'Update odds JSON'
