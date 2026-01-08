@@ -46,9 +46,9 @@ jobs:
           git add optimum-picks/public/scoreboard.json
           git diff --staged --quiet || git commit -m "Update odds JSON"
           git push
-
+      
       - name: Build (CRA)
-        run: npm run build
+        run: CI=false npm run build
 
       - name: Configure Pages
         uses: actions/configure-pages@v5
