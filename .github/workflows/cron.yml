@@ -6,13 +6,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write   # commit updated scoreboard.json
-  pages: write      # deploy to GitHub Pages
-  id-token: write   # required by actions/deploy-pages
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: optimum-picks
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -22,18 +30,20 @@ jobs:
         with:
           node-version: 20
           cache: npm
+          cache-dependency-path: optimum-picks/package-lock.json
 
       - name: Install deps
         run: npm ci
 
       - name: Update scoreboard.json
-        run: node optimum-picks/fetchScoreboard.mjs
+        run: node fetchScoreboard.mjs
 
       - name: Commit updated JSON (if changed)
+        working-directory: .
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add public/scoreboard.json
+          git add optimum-picks/public/scoreboard.json
           git diff --staged --quiet || git commit -m "Update odds JSON"
           git push
 
@@ -46,7 +56,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v4
         with:
-          path: build
+          path: optimum-picks/build
 
   deploy:
     needs: build
