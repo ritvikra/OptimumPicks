@@ -5,11 +5,9 @@ const month = String(now.getMonth() + 1).padStart(2, "0");
 const day = String(now.getDate()).padStart(2, "0");
 const dateStr = `${year}${month}${day}`;
 
-const URL = `https://api.actionnetwork.com/web/v2/scoreboard/nba` +
-  `?bookIds=15,30,647,510,68,3151,645,1867,1901,841,1904,79` +
-  `&date=${dateStr}` +
+const URL = `https://api.actionnetwork.com/web/v2/scoreboard/nfl` +
+  `?bookIds=15,30,270,282,68,1797,279,79,2988,75,123,71` +
   `&periods=event`;
-
 
 const res = await fetch(URL, {
   headers: {
@@ -33,7 +31,7 @@ for (const g of games) {
 const nba_game_ids = JSON.stringify(game_ids);
 // Save into CRA public/ so it’s served at /scoreboard.json in production
 await fs.mkdir("public", { recursive: true });
-await fs.writeFile("public/nbaodds.json", JSON.stringify(json, null, 2) + "\n", "utf8");
-await fs.writeFile("public/nba_game_ids.json", nba_game_ids + "\n", "utf8");
-console.log("Wrote public/nbaodds.json");
-console.log("wrote nba_game_ids too")
+await fs.writeFile("public/nflodds.json", JSON.stringify(json, null, 2) + "\n", "utf8");
+await fs.writeFile("public/nfl_game_ids.json", nba_game_ids + "\n", "utf8");
+console.log("Wrote public/nflodds.json");
+console.log("wrote nfl_game_ids too")

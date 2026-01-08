@@ -9,12 +9,10 @@ import {
   Paper, 
   Box, 
   Typography, 
-  IconButton,
   Chip
 } from '@mui/material';
 import { BettingData } from '../data/mockData';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 interface BettingTableProps {
   data: BettingData[];
@@ -110,26 +108,6 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMod
                 background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
               }}>PROBABILITY</TableCell>
             )}
-            <TableCell sx={{ 
-              color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
-              fontSize: '0.75rem', 
-              letterSpacing: '1px', 
-              fontWeight: 300, 
-              width: '8%',
-              background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
-            }}>BET SIZE</TableCell>
-            {/* Show Bet Size Ratio only in Arbitrage table */}
-            {tableType === 'arb' && (
-              <TableCell sx={{ 
-                color: isLightMode ? 'rgba(0, 0, 0, 0.6)' : 'rgba(255, 255, 255, 0.6)', 
-                fontSize: '0.75rem', 
-                letterSpacing: '1px', 
-                fontWeight: 300, 
-                width: '10%',
-                background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
-              }}>BET SIZE RATIO</TableCell>
-            )}
-            <TableCell sx={{ width: '5%', background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)' }}></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -214,54 +192,16 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMod
                 {row.market}
               </TableCell>
               <TableCell sx={{ border: 'none' }}>
-                {row.books === 'BetMGM' && (
-                  <Box 
-                    component="img" 
-                    src="https://upload.wikimedia.org/wikipedia/commons/2/23/BetMGM_logo.svg" 
-                    alt="BetMGM"
-                    sx={{ height: 24, opacity: 0.9 }}
-                  />
-                )}
-                {row.books === 'DraftKings' && (
-                  <Box 
-                    sx={{ 
-                      background: 'rgba(20, 72, 62, 0.8)', 
-                      color: 'rgba(255, 255, 255, 0.9)', 
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '8px',
-                      px: 1.5,
-                      py: 0.5,
-                      fontSize: '0.75rem',
-                      fontWeight: 500,
-                      letterSpacing: '0.5px',
-                      border: '1px solid rgba(0, 255, 171, 0.1)'
-                    }}
-                  >
-                    DK
-                  </Box>
-                )}
-                {row.books === 'FanDuel' && (
-                  <Box 
-                    sx={{ 
-                      background: 'rgba(26, 117, 210, 0.3)', 
-                      color: 'rgba(255, 255, 255, 0.9)', 
-                      display: 'inline-flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      borderRadius: '8px',
-                      px: 1.5,
-                      py: 0.5,
-                      fontSize: '0.75rem',
-                      fontWeight: 500,
-                      letterSpacing: '0.5px',
-                      border: '1px solid rgba(26, 117, 210, 0.4)'
-                    }}
-                  >
-                    FD
-                  </Box>
-                )}
+                <Typography 
+                  sx={{ 
+                    color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
+                    fontSize: '0.85rem',
+                    fontWeight: 400,
+                    letterSpacing: '0.3px'
+                  }}
+                >
+                  {row.books}
+                </Typography>
               </TableCell>
               <TableCell sx={{ border: 'none' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -314,30 +254,6 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMod
                   {row.probability || '-'}
                 </TableCell>
               )}
-              <TableCell sx={{ 
-                color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
-                border: 'none',
-                fontWeight: 400,
-                letterSpacing: '0.5px'
-              }}>
-                ${row.betSize}
-              </TableCell>
-              {/* Show Bet Size Ratio only in Arbitrage table */}
-              {tableType === 'arb' && (
-                <TableCell sx={{ 
-                  color: isLightMode ? 'rgba(0, 0, 0, 0.85)' : 'rgba(255, 255, 255, 0.85)', 
-                  border: 'none',
-                  fontWeight: 300,
-                  letterSpacing: '0.5px'
-                }}>
-                  {row.betSizeRatio || '-'}
-                </TableCell>
-              )}
-              <TableCell sx={{ border: 'none' }}>
-                <IconButton size="small" sx={{ color: isLightMode ? 'rgba(0, 0, 0, 0.4)' : 'rgba(255, 255, 255, 0.4)', '&:hover': { color: isLightMode ? 'rgba(0, 0, 0, 0.8)' : 'rgba(255, 255, 255, 0.8)' } }}>
-                  <MoreVertIcon fontSize="small" />
-                </IconButton>
-              </TableCell>
             </TableRow>
           ))}
         </TableBody>

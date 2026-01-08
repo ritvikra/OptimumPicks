@@ -1,19 +1,19 @@
 // src/App.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { 
-  Box, AppBar, Toolbar, Typography, Button, IconButton, Paper, InputBase, Chip,
-  createTheme, ThemeProvider, CssBaseline, Switch, FormControlLabel
+  Box, AppBar, Toolbar, Typography, Button, IconButton,
+  createTheme, ThemeProvider, CssBaseline
 } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import RefreshIcon from '@mui/icons-material/Refresh';
 import PersonIcon from '@mui/icons-material/Person';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import BettingTable from './components/BettingTable';
 import OptimumTable from './components/OptimumTable';
 import Dashboard from './components/Dashboard';
-import { mockData, optimumData } from './data/mockData';
+import { mockData, optimumData, BettingData } from './data/mockData';
 import './App.css';
 import NBAOdds from './components/NBAOdds';
+import NFLOdds from './components/NFLOdds';
+import { calculatePlusEV, calculateArbitrage } from './utils/oddsAnalysis';
 
 // Define light and dark themes
 const darkTheme = createTheme({
@@ -73,61 +73,183 @@ const lightTheme = createTheme({
 });
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'ev' | 'arb' | 'opt' | 'nba' | 'analytics'>('ev');
-  const [isLightMode, setIsLightMode] = useState(false);
-
-  // Determine which theme to use based on active tab and mode
-  const getCurrentTheme = () => {
-    if (activeTab === 'ev' && isLightMode) {
-      return lightTheme;
+  // Load saved tab from localStorage, default to 'ev'
+  const [activeTab, setActiveTab] = useState<'ev' | 'arb' | 'opt' | 'nba' | 'nfl' | 'analytics'>(() => {
+    const savedTab = localStorage.getItem('activeTab');
+    if (savedTab && ['ev', 'arb', 'opt', 'nba', 'nfl', 'analytics'].includes(savedTab)) {
+      return savedTab as 'ev' | 'arb' | 'opt' | 'nba' | 'nfl' | 'analytics';
     }
-    return darkTheme;
-  };
+    return 'ev';
+  });
 
-  // Toggle handler
-  const handleThemeToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsLightMode(event.target.checked);
+  // Save tab to localStorage whenever it changes
+  const handleTabChange = (tab: 'ev' | 'arb' | 'opt' | 'nba' | 'nfl' | 'analytics') => {
+    setActiveTab(tab);
+    localStorage.setItem('activeTab', tab);
   };
+  const [nbaData, setNbaData] = useState<any>(null);
+  const [nbaLoading, setNbaLoading] = useState(true);
+  const [nflData, setNflData] = useState<any>(null);
+  const [nflLoading, setNflLoading] = useState(true);
+
+  // Fetch NBA odds data
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await fetch("/nbaodds.json", { 
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache" }
+        });        
+        const text = await res.text();
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0, 180)}`);
+        const json = JSON.parse(text);
+        if (!cancelled) {
+          setNbaData(json);
+          setNbaLoading(false);
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          console.error("Failed to load NBA odds:", e);
+          setNbaLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Fetch NFL odds data
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await fetch("/nflodds.json", { 
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache" }
+        });        
+        const text = await res.text();
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0, 180)}`);
+        const json = JSON.parse(text);
+        if (!cancelled) {
+          setNflData(json);
+          setNflLoading(false);
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          console.error("Failed to load NFL odds:", e);
+          setNflLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Calculate plus EV opportunities from NBA and NFL data
+  const plusEVOpportunities = useMemo(() => {
+    const allOpportunities: BettingData[] = [];
+    
+    // NBA opportunities
+    if (nbaData?.games && Array.isArray(nbaData.games)) {
+      try {
+        const nbaOpps = calculatePlusEV(nbaData.games);
+        allOpportunities.push(...nbaOpps);
+      } catch (e) {
+        console.error("Error calculating NBA plus EV:", e);
+      }
+    }
+    
+    // NFL opportunities
+    if (nflData?.games && Array.isArray(nflData.games)) {
+      try {
+        const nflOpps = calculatePlusEV(nflData.games);
+        allOpportunities.push(...nflOpps);
+      } catch (e) {
+        console.error("Error calculating NFL plus EV:", e);
+      }
+    }
+    
+    if (allOpportunities.length > 0) {
+      return allOpportunities.sort((a, b) => (b.expectedValue || 0) - (a.expectedValue || 0));
+    }
+    
+    return mockData;
+  }, [nbaData, nflData]);
+
+  // Calculate arbitrage opportunities from NBA and NFL data
+  const arbitrageOpportunities = useMemo(() => {
+    const allOpportunities: BettingData[] = [];
+    
+    // NBA opportunities
+    if (nbaData?.games && Array.isArray(nbaData.games)) {
+      try {
+        const nbaOpps = calculateArbitrage(nbaData.games);
+        allOpportunities.push(...nbaOpps);
+      } catch (e) {
+        console.error("Error calculating NBA arbitrage:", e);
+      }
+    }
+    
+    // NFL opportunities
+    if (nflData?.games && Array.isArray(nflData.games)) {
+      try {
+        const nflOpps = calculateArbitrage(nflData.games);
+        allOpportunities.push(...nflOpps);
+      } catch (e) {
+        console.error("Error calculating NFL arbitrage:", e);
+      }
+    }
+    
+    if (allOpportunities.length > 0) {
+      return allOpportunities.sort((a, b) => (b.arbPercentage || 0) - (a.arbPercentage || 0));
+    }
+    
+    return mockData;
+  }, [nbaData, nflData]);
+
+  // Always use dark theme
+  const getCurrentTheme = () => darkTheme;
 
   return (
     <ThemeProvider theme={getCurrentTheme()}>
       <CssBaseline />
       <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', position: 'relative', zIndex: 1 }}>
         <AppBar position="static" sx={{ 
-          background: activeTab === 'ev' && isLightMode 
-            ? 'rgba(255, 255, 255, 0.95)' 
-            : 'transparent', 
+          background: 'transparent', 
           boxShadow: 'none', 
-          borderBottom: activeTab === 'ev' && isLightMode 
-            ? '1px solid rgba(0,0,0,0.1)' 
-            : '1px solid rgba(255,255,255,0.1)'
+          borderBottom: '1px solid rgba(255,255,255,0.1)'
         }}>
           <Toolbar>
             <Typography variant="h6" component="div" sx={{ 
               flexGrow: 0, 
               fontWeight: 300, 
               letterSpacing: '1px',
-              color: activeTab === 'ev' && isLightMode 
-                ? 'rgba(0,0,0,0.9)' 
-                : 'rgba(255,255,255,0.9)', 
+              color: 'rgba(255,255,255,0.9)', 
               mr: 4 
             }}>
               OPTIMUM PICKS
             </Typography>
             
             <Button 
-              onClick={() => setActiveTab('ev')}
+              onClick={() => handleTabChange('ev')}
               sx={{ 
                 color: activeTab === 'ev' 
-                  ? (isLightMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)') 
-                  : (isLightMode ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'), 
+                  ? 'rgba(255,255,255,0.9)' 
+                  : 'rgba(255,255,255,0.5)', 
                 textTransform: 'none', 
                 mr: 2,
                 fontWeight: 300,
                 letterSpacing: '0.5px',
                 fontSize: '0.9rem',
                 '&:hover': {
-                  backgroundColor: isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'
+                  backgroundColor: 'rgba(255,255,255,0.05)'
                 }
               }}
             >
@@ -135,18 +257,18 @@ function App() {
             </Button>
             
             <Button 
-              onClick={() => setActiveTab('arb')}
+              onClick={() => handleTabChange('arb')}
               sx={{ 
                 color: activeTab === 'arb' 
-                  ? (isLightMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)') 
-                  : (isLightMode ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'), 
+                  ? 'rgba(255,255,255,0.9)' 
+                  : 'rgba(255,255,255,0.5)', 
                 textTransform: 'none',
                 fontWeight: 300,
                 letterSpacing: '0.5px',
                 fontSize: '0.9rem',
                 marginRight: 2,
                 '&:hover': {
-                  backgroundColor: isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'
+                  backgroundColor: 'rgba(255,255,255,0.05)'
                 }
               }}
             >
@@ -154,46 +276,64 @@ function App() {
             </Button>
             
             <Button 
-              onClick={() => setActiveTab('opt')}
+              onClick={() => handleTabChange('opt')}
               sx={{ 
                 color: activeTab === 'opt' 
-                  ? (isLightMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)') 
-                  : (isLightMode ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'), 
+                  ? 'rgba(255,255,255,0.9)' 
+                  : 'rgba(255,255,255,0.5)', 
                 textTransform: 'none',
                 fontWeight: 300,
                 letterSpacing: '0.5px',
                 fontSize: '0.9rem',
                 marginRight: 2,
                 '&:hover': {
-                  backgroundColor: isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'
+                  backgroundColor: 'rgba(255,255,255,0.05)'
                 }
               }}
             >
               Optimums
             </Button>
             <Button 
-              onClick={() => setActiveTab('nba')}
+              onClick={() => handleTabChange('nba')}
               sx={{ 
                 color: activeTab === 'nba' 
-                  ? (isLightMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.9)') 
-                  : (isLightMode ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'), 
+                  ? 'rgba(255,255,255,0.9)' 
+                  : 'rgba(255,255,255,0.5)', 
                 textTransform: 'none',
                 fontWeight: 300,
                 letterSpacing: '0.5px',
                 fontSize: '0.9rem',
                 marginRight: 2,
                 '&:hover': {
-                  backgroundColor: isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'
+                  backgroundColor: 'rgba(255,255,255,0.05)'
                 }
               }}
             >
               NBA Odds
             </Button>
+            <Button 
+              onClick={() => handleTabChange('nfl')}
+              sx={{ 
+                color: activeTab === 'nfl' 
+                  ? 'rgba(255,255,255,0.9)' 
+                  : 'rgba(255,255,255,0.5)', 
+                textTransform: 'none',
+                fontWeight: 300,
+                letterSpacing: '0.5px',
+                fontSize: '0.9rem',
+                marginRight: 2,
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.05)'
+                }
+              }}
+            >
+              NFL Odds
+            </Button>
 
             <Button 
-              onClick={() => setActiveTab('analytics')}
+              onClick={() => handleTabChange('analytics')}
               sx={{ 
-                color: activeTab === 'analytics' ? '#00FFAB' : (isLightMode ? 'rgba(0,0,0,0.5)' : 'rgba(255,255,255,0.5)'), 
+                color: activeTab === 'analytics' ? '#00FFAB' : 'rgba(255,255,255,0.5)', 
                 textTransform: 'none',
                 fontWeight: activeTab === 'analytics' ? 500 : 300,
                 letterSpacing: '0.5px',
@@ -213,7 +353,7 @@ function App() {
             
             <Box sx={{ flexGrow: 1 }} />
             
-            <IconButton sx={{ color: isLightMode ? 'rgba(0,0,0,0.7)' : 'rgba(255,255,255,0.7)' }}>
+            <IconButton sx={{ color: 'rgba(255,255,255,0.7)' }}>
               <PersonIcon />
             </IconButton>
           </Toolbar>
@@ -247,94 +387,11 @@ function App() {
                       ? 'Optimum Prediction Differences'
                       : activeTab === 'nba'
                         ? 'NBA Odds'
-                        : ''
+                        : activeTab === 'nfl'
+                          ? 'NFL Odds'
+                          : ''
                 }
               </Typography>
-              
-              {activeTab === 'ev' && (
-                <FormControlLabel
-                  control={
-                    <Switch 
-                      checked={isLightMode}
-                      onChange={handleThemeToggle}
-                      color="primary"
-                    />
-                  }
-                  label={isLightMode ? 'Light Mode' : 'Dark Mode'}
-                  sx={{ 
-                    mr: 2,
-                    '& .MuiFormControlLabel-label': {
-                      color: 'text.secondary',
-                      fontWeight: 300
-                    }
-                  }}
-                />
-              )}
-              
-              <Chip 
-                label="Pre-Match" 
-                sx={{ 
-                  bgcolor: activeTab === 'ev' && isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)', 
-                  color: 'text.primary', 
-                  fontWeight: 300,
-                  letterSpacing: '0.5px',
-                  mr: 1,
-                  height: 30,
-                  '&:hover': {
-                    bgcolor: activeTab === 'ev' && isLightMode ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.15)'
-                  }
-                }} 
-              />
-              
-              <Chip 
-                label="Live" 
-                sx={{ 
-                  bgcolor: 'transparent', 
-                  color: 'text.secondary', 
-                  border: activeTab === 'ev' && isLightMode ? '1px solid rgba(0,0,0,0.2)' : '1px solid rgba(255,255,255,0.2)',
-                  fontWeight: 300,
-                  letterSpacing: '0.5px',
-                  mr: 2,
-                  height: 30,
-                  '&:hover': {
-                    bgcolor: activeTab === 'ev' && isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)'
-                  }
-                }} 
-              />
-              
-              <Paper
-                component="form"
-                sx={{
-                  p: '2px 4px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: 250,
-                  bgcolor: activeTab === 'ev' && isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)',
-                  borderRadius: 2,
-                  height: 36,
-                  border: activeTab === 'ev' && isLightMode ? '1px solid rgba(0,0,0,0.1)' : '1px solid rgba(255,255,255,0.1)'
-                }}
-              >
-                <IconButton sx={{ p: '10px', color: 'text.secondary' }} aria-label="search">
-                  <SearchIcon />
-                </IconButton>
-                <InputBase
-                  sx={{ ml: 1, flex: 1, color: 'text.primary' }}
-                  placeholder="Search"
-                  inputProps={{ 'aria-label': 'search' }}
-                />
-              </Paper>
-              
-              <IconButton sx={{ 
-                ml: 1, 
-                color: 'text.secondary', 
-                bgcolor: activeTab === 'ev' && isLightMode ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.05)', 
-                '&:hover': { 
-                  bgcolor: activeTab === 'ev' && isLightMode ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.1)' 
-                } 
-              }}>
-                <RefreshIcon />
-              </IconButton>
             </Box>
           )}
           
@@ -348,27 +405,16 @@ function App() {
               }}>
                 Analytics Dashboard
               </Typography>
-              
-              <IconButton sx={{ 
-                ml: 1, 
-                color: 'text.secondary', 
-                bgcolor: 'rgba(255,255,255,0.05)', 
-                '&:hover': { 
-                  bgcolor: 'rgba(255,255,255,0.1)' 
-                } 
-              }}>
-                <RefreshIcon />
-              </IconButton>
             </Box>
           )}
           
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', width: '100%' }}>
             {activeTab === 'ev' && (
-              <BettingTable data={mockData} tableType="ev" isLightMode={isLightMode} />
+              <BettingTable data={plusEVOpportunities} tableType="ev" isLightMode={false} />
             )}
             
             {activeTab === 'arb' && (
-              <BettingTable data={mockData} tableType="arb" />
+              <BettingTable data={arbitrageOpportunities} tableType="arb" />
             )}
             
             {activeTab === 'opt' && (
@@ -376,6 +422,9 @@ function App() {
             )}
             {activeTab === 'nba' && (
               <NBAOdds />
+            )}
+            {activeTab === 'nfl' && (
+              <NFLOdds />
             )}
             {activeTab === 'analytics' && (
               <Dashboard data={mockData} />
