@@ -1,0 +1,75 @@
+name: Update Odds + Deploy Pages
+
+on:
+  schedule:
+    - cron: "*/20 * * * *" # every 20 minutes
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      TZ: America/New_York
+    defaults:
+      run:
+        working-directory: optimum-picks
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: optimum-picks/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      - name: Update NBA odds
+        run: node nbaoddsupdate.mjs
+
+      - name: Update NFL odds
+        run: node nfloddsupdate.mjs
+
+      - name: Commit updated JSON (if changed)
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add optimum-picks/public/nbaodds.json optimum-picks/public/nflodds.json optimum-picks/public/nba_game_ids.json optimum-picks/public/nfl_game_ids.json
+          git diff --staged --quiet || git commit -m "Update NBA and NFL odds JSON"
+          git push
+      
+      - name: Build (CRA)
+        run: CI=false npm run build
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: optimum-picks/build
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
+
