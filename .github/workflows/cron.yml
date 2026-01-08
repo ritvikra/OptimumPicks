@@ -27,7 +27,7 @@ jobs:
         run: npm ci
 
       - name: Update scoreboard.json
-        run: npm run fetch:scoreboard
+        run: node optimum-picks/fetchScoreboard.mjs
 
       - name: Commit updated JSON (if changed)
         run: |
