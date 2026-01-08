@@ -309,7 +309,7 @@ const NBAOdds: React.FC = () => {
 
     (async () => {
       try {
-        const res = await fetch("/scoreboard.json", { 
+        const res = await fetch("/nbaodds.json", { 
           cache: "no-store",  // Always fresh; or "no-cache" for validation
           headers: { "Cache-Control": "no-cache" }
         });        
@@ -425,7 +425,7 @@ const NBAOdds: React.FC = () => {
             <TableCell
               sx={{
                 position: "sticky",
-                left: 132,  // GAME width
+                left: 150,  // GAME width
                 zIndex: 3,
                 color: "rgba(255, 255, 255, 0.6)",
                 fontSize: "0.75rem",
@@ -469,9 +469,9 @@ const NBAOdds: React.FC = () => {
               <TableRow
                 key={g.id}
                 sx={{
-                  "&:nth-of-type(odd)": { backgroundColor: "rgb(20, 20, 20)" },    // ~rgba(0,0,0,0.2)
-                  "&:nth-of-type(even)": { backgroundColor: "rgb(9, 9, 9)" }, // ~rgba(255,255,255,0.02) = near white
-                  "&:hover": { backgroundColor: "rgb(20, 20, 20)" },             // ~rgba(255,255,255,0.05)
+                  "&:nth-of-type(odd) > td": { backgroundColor: "rgb(20, 20, 20)" },
+                  "&:nth-of-type(even) > td": { backgroundColor: "rgb(9, 9, 9)" },
+                  "&:hover > td": { backgroundColor: "rgb(20, 20, 20)" },
                   borderBottom: "none",
                   transition: "background 0.2s ease",
                 }}
@@ -483,6 +483,7 @@ const NBAOdds: React.FC = () => {
                   border: "none", 
                   py: 2, 
                   verticalAlign: "top",
+                  minWidth: 150,
                   borderRight: "1px solid rgba(255,255,255,0.08)", 
                 }}>
                   <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
@@ -498,14 +499,17 @@ const NBAOdds: React.FC = () => {
 
                 <TableCell sx={{
                   position: "sticky",
-                  left: 132,  // GAME width
+                  left: 150,  // GAME width
                   zIndex: 3, 
                   borderRight: "1px solid rgba(255,255,255,0.08)", 
                   py: 2, 
                   verticalAlign: "top", 
                   justifySelf: "baseline",
                   minWidth: 300,
-                  background: "rgb(0, 30, 0)"  // Green tint for "best"
+                  backgroundColor: "rgb(0, 30, 0) !important",  // Green tint for "best" - override row colors
+                  "&:hover": {
+                    backgroundColor: "rgb(0, 30, 0) !important",  // Maintain green on hover
+                  }
                 }}>
                   <Typography variant="caption" sx={{ color: "rgba(0,255,171,0.9)", fontSize: "0.65rem", letterSpacing: 1 }}>
                   </Typography>

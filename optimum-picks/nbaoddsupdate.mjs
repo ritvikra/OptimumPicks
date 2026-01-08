@@ -28,6 +28,6 @@ const json = await res.json();
 
 // Save into CRA public/ so it’s served at /scoreboard.json in production
 await fs.mkdir("public", { recursive: true });
-await fs.writeFile("public/scoreboard.json", JSON.stringify(json, null, 2) + "\n", "utf8");
+await fs.writeFile("public/nbaodds.json", JSON.stringify(json, null, 2) + "\n", "utf8");
 
-console.log("Wrote public/scoreboard.json");
+console.log("Wrote public/nbaodds.json");
