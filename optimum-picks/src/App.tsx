@@ -454,7 +454,18 @@ function App() {
             <Box sx={{ flexGrow: 1 }} />
             
             <IconButton sx={{ color: 'rgba(255,255,255,0.7)' }}>
-              <PersonIcon />
+            <Box
+              component="img"
+              src="/theta.png"
+              alt="Optimum Picks Logo"
+              sx={{
+                width: 38,
+                height: 38,
+                mr: 0,
+                borderRadius: 2,
+                boxShadow: '0 1px 6px 0 rgba(0,0,0,0.13)'
+              }}
+            />
             </IconButton>
           </Toolbar>
         </AppBar>
