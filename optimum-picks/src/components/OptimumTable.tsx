@@ -38,11 +38,16 @@ const OptimumTable: React.FC<OptimumTableProps> = ({ data }) => {
         backdropFilter: 'blur(10px)',
         borderRadius: 3,
         border: '1px solid rgba(255, 255, 255, 0.05)',
-        overflow: 'hidden',
-        flex: 1
+        overflowX: 'auto',
+        overflowY: 'auto',
+        flex: 1,
+        WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
+        '&::-webkit-scrollbar': {
+          height: '8px',
+        },
       }}
     >
-      <Table aria-label="optimum table" stickyHeader>
+      <Table aria-label="optimum table" stickyHeader sx={{ minWidth: { xs: '700px', sm: 'auto' } }}>
         <TableHead>
           <TableRow sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <TableCell sx={{ 

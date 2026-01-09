@@ -41,16 +41,25 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMod
         backdropFilter: 'blur(10px)',
         borderRadius: 3,
         border: isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.05)',
-        overflow: 'auto',
+        overflowX: 'auto',
+        overflowY: 'auto',
         width: '100%',
         height: 'auto',
-        minHeight: 'fit-content'
+        minHeight: 'fit-content',
+        WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
+        '&::-webkit-scrollbar': {
+          height: '8px',
+        },
       }}
     >
       <Table 
         aria-label="betting table" 
         stickyHeader
-        sx={{ width: '100%', tableLayout: 'fixed' }}
+        sx={{ 
+          width: '100%', 
+          tableLayout: { xs: 'auto', sm: 'fixed' },
+          minWidth: { xs: '600px', sm: 'auto' } // Ensure table doesn't get too narrow on mobile
+        }}
       >
         <TableHead>
           <TableRow sx={{ borderBottom: isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.1)' }}>

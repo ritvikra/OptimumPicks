@@ -2,10 +2,12 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Box, AppBar, Toolbar, Typography, Button, IconButton,
-  createTheme, ThemeProvider, CssBaseline
+  createTheme, ThemeProvider, CssBaseline, Drawer, List, ListItem, ListItemButton, ListItemText,
+  useMediaQuery
 } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import BarChartIcon from '@mui/icons-material/BarChart';
+import MenuIcon from '@mui/icons-material/Menu';
 import BettingTable from './components/BettingTable';
 import OptimumTable from './components/OptimumTable';
 import Dashboard from './components/Dashboard';
@@ -73,6 +75,10 @@ const lightTheme = createTheme({
 });
 
 function App() {
+  // Detect mobile screen size
+  const isMobile = useMediaQuery('(max-width:768px)');
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   // Load saved tab from localStorage, default to 'ev'
   const [activeTab, setActiveTab] = useState<'ev' | 'arb' | 'opt' | 'nba' | 'nfl'>(() => {
     const savedTab = localStorage.getItem('activeTab');
@@ -86,6 +92,13 @@ function App() {
   const handleTabChange = (tab: 'ev' | 'arb' | 'opt' | 'nba' | 'nfl') => {
     setActiveTab(tab);
     localStorage.setItem('activeTab', tab);
+    if (isMobile) {
+      setMobileOpen(false); // Close drawer on mobile after selection
+    }
+  };
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen);
   };
   const [nbaData, setNbaData] = useState<any>(null);
   const [nbaLoading, setNbaLoading] = useState(true);
@@ -317,139 +330,176 @@ function App() {
   // Always use dark theme
   const getCurrentTheme = () => darkTheme;
 
+  const menuItems = [
+    { key: 'ev', label: 'Plus EV' },
+    { key: 'arb', label: 'Arbitrage' },
+    { key: 'opt', label: 'Optimums' },
+    { key: 'nba', label: 'NBA Odds' },
+    { key: 'nfl', label: 'NFL Odds' },
+  ];
+
+  const drawer = (
+    <Box onClick={handleDrawerToggle} sx={{ textAlign: 'center' }}>
+      <Typography variant="h6" sx={{ my: 2, fontWeight: 300, letterSpacing: '1px', color: 'rgba(255,255,255,0.9)' }}>
+        OPTIMUM PICKS
+      </Typography>
+      <List>
+        {menuItems.map((item) => (
+          <ListItem key={item.key} disablePadding>
+            <ListItemButton
+              onClick={() => handleTabChange(item.key as 'ev' | 'arb' | 'opt' | 'nba' | 'nfl')}
+              selected={activeTab === item.key}
+              sx={{
+                color: activeTab === item.key 
+                  ? 'rgba(255,255,255,0.9)' 
+                  : 'rgba(255,255,255,0.5)',
+                '&.Mui-selected': {
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  '&:hover': {
+                    backgroundColor: 'rgba(255,255,255,0.15)',
+                  },
+                },
+                '&:hover': {
+                  backgroundColor: 'rgba(255,255,255,0.05)',
+                },
+              }}
+            >
+              <ListItemText primary={item.label} />
+            </ListItemButton>
+          </ListItem>
+        ))}
+      </List>
+    </Box>
+  );
+
   return (
     <ThemeProvider theme={getCurrentTheme()}>
       <CssBaseline />
-      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', position: 'relative', zIndex: 1 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'column', height: '100vh', position: 'relative', zIndex: 1, overflow: 'hidden' }}>
         <AppBar position="static" sx={{ 
           background: 'transparent', 
           boxShadow: 'none', 
           borderBottom: '1px solid rgba(255,255,255,0.1)'
         }}>
-          <Toolbar>
+          <Toolbar sx={{ px: { xs: 1, sm: 2 } }}>
+            {isMobile && (
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
             <Typography variant="h6" component="div" sx={{ 
               flexGrow: 0, 
               fontWeight: 300, 
               letterSpacing: '1px',
               color: 'rgba(255,255,255,0.9)', 
-              mr: 4 
+              mr: { xs: 1, sm: 4 },
+              fontSize: { xs: '0.9rem', sm: '1.25rem' }
             }}>
               OPTIMUM PICKS
             </Typography>
             
-            <Button 
-              onClick={() => handleTabChange('ev')}
-              sx={{ 
-                color: activeTab === 'ev' 
-                  ? 'rgba(255,255,255,0.9)' 
-                  : 'rgba(255,255,255,0.5)', 
-                textTransform: 'none', 
-                mr: 2,
-                fontWeight: 300,
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem',
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.05)'
-                }
-              }}
-            >
-              Plus EV
-            </Button>
-            
-            <Button 
-              onClick={() => handleTabChange('arb')}
-              sx={{ 
-                color: activeTab === 'arb' 
-                  ? 'rgba(255,255,255,0.9)' 
-                  : 'rgba(255,255,255,0.5)', 
-                textTransform: 'none',
-                fontWeight: 300,
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem',
-                marginRight: 2,
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.05)'
-                }
-              }}
-            >
-              Arbitrage
-            </Button>
-            
-            <Button 
-              onClick={() => handleTabChange('opt')}
-              sx={{ 
-                color: activeTab === 'opt' 
-                  ? 'rgba(255,255,255,0.9)' 
-                  : 'rgba(255,255,255,0.5)', 
-                textTransform: 'none',
-                fontWeight: 300,
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem',
-                marginRight: 2,
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.05)'
-                }
-              }}
-            >
-              Optimums
-            </Button>
-            <Button 
-              onClick={() => handleTabChange('nba')}
-              sx={{ 
-                color: activeTab === 'nba' 
-                  ? 'rgba(255,255,255,0.9)' 
-                  : 'rgba(255,255,255,0.5)', 
-                textTransform: 'none',
-                fontWeight: 300,
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem',
-                marginRight: 2,
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.05)'
-                }
-              }}
-            >
-              NBA Odds
-            </Button>
-            <Button 
-              onClick={() => handleTabChange('nfl')}
-              sx={{ 
-                color: activeTab === 'nfl' 
-                  ? 'rgba(255,255,255,0.9)' 
-                  : 'rgba(255,255,255,0.5)', 
-                textTransform: 'none',
-                fontWeight: 300,
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem',
-                marginRight: 2,
-                '&:hover': {
-                  backgroundColor: 'rgba(255,255,255,0.05)'
-                }
-              }}
-            >
-              NFL Odds
-            </Button>
-
-            {/*<Button 
-              onClick={() => handleTabChange('analytics')}
-              sx={{ 
-                color: activeTab === 'analytics' ? '#00FFAB' : 'rgba(255,255,255,0.5)', 
-                textTransform: 'none',
-                fontWeight: activeTab === 'analytics' ? 500 : 300,
-                letterSpacing: '0.5px',
-                fontSize: '0.9rem',
-                bgcolor: activeTab === 'analytics' ? 'rgba(0, 255, 171, 0.1)' : 'transparent',
-                border: activeTab === 'analytics' ? '1px solid rgba(0, 255, 171, 0.3)' : 'none',
-                borderRadius: '8px',
-                px: 2,
-                '&:hover': {
-                  backgroundColor: 'rgba(0, 255, 171, 0.05)'
-                }
-              }}
-              startIcon={<BarChartIcon />}
-            >
-              Analytics
-            </Button>*/}
+            {!isMobile && (
+              <>
+                <Button 
+                  onClick={() => handleTabChange('ev')}
+                  sx={{ 
+                    color: activeTab === 'ev' 
+                      ? 'rgba(255,255,255,0.9)' 
+                      : 'rgba(255,255,255,0.5)', 
+                    textTransform: 'none', 
+                    mr: 2,
+                    fontWeight: 300,
+                    letterSpacing: '0.5px',
+                    fontSize: '0.9rem',
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,0.05)'
+                    }
+                  }}
+                >
+                  Plus EV
+                </Button>
+                
+                <Button 
+                  onClick={() => handleTabChange('arb')}
+                  sx={{ 
+                    color: activeTab === 'arb' 
+                      ? 'rgba(255,255,255,0.9)' 
+                      : 'rgba(255,255,255,0.5)', 
+                    textTransform: 'none',
+                    fontWeight: 300,
+                    letterSpacing: '0.5px',
+                    fontSize: '0.9rem',
+                    marginRight: 2,
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,0.05)'
+                    }
+                  }}
+                >
+                  Arbitrage
+                </Button>
+                
+                <Button 
+                  onClick={() => handleTabChange('opt')}
+                  sx={{ 
+                    color: activeTab === 'opt' 
+                      ? 'rgba(255,255,255,0.9)' 
+                      : 'rgba(255,255,255,0.5)', 
+                    textTransform: 'none',
+                    fontWeight: 300,
+                    letterSpacing: '0.5px',
+                    fontSize: '0.9rem',
+                    marginRight: 2,
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,0.05)'
+                    }
+                  }}
+                >
+                  Optimums
+                </Button>
+                <Button 
+                  onClick={() => handleTabChange('nba')}
+                  sx={{ 
+                    color: activeTab === 'nba' 
+                      ? 'rgba(255,255,255,0.9)' 
+                      : 'rgba(255,255,255,0.5)', 
+                    textTransform: 'none',
+                    fontWeight: 300,
+                    letterSpacing: '0.5px',
+                    fontSize: '0.9rem',
+                    marginRight: 2,
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,0.05)'
+                    }
+                  }}
+                >
+                  NBA Odds
+                </Button>
+                <Button 
+                  onClick={() => handleTabChange('nfl')}
+                  sx={{ 
+                    color: activeTab === 'nfl' 
+                      ? 'rgba(255,255,255,0.9)' 
+                      : 'rgba(255,255,255,0.5)', 
+                    textTransform: 'none',
+                    fontWeight: 300,
+                    letterSpacing: '0.5px',
+                    fontSize: '0.9rem',
+                    marginRight: 2,
+                    '&:hover': {
+                      backgroundColor: 'rgba(255,255,255,0.05)'
+                    }
+                  }}
+                >
+                  NFL Odds
+                </Button>
+              </>
+            )}
             
             <Box sx={{ flexGrow: 1 }} />
             
@@ -459,8 +509,8 @@ function App() {
               src="/theta.png"
               alt="Optimum Picks Logo"
               sx={{
-                width: 38,
-                height: 38,
+                width: { xs: 32, sm: 38 },
+                height: { xs: 32, sm: 38 },
                 mr: 0,
                 borderRadius: 2,
                 boxShadow: '0 1px 6px 0 rgba(0,0,0,0.13)'
@@ -470,25 +520,48 @@ function App() {
           </Toolbar>
         </AppBar>
         
+        <Drawer
+          variant="temporary"
+          open={mobileOpen}
+          onClose={handleDrawerToggle}
+          ModalProps={{
+            keepMounted: true, // Better open performance on mobile.
+          }}
+          sx={{
+            display: { xs: 'block', sm: 'none' },
+            '& .MuiDrawer-paper': {
+              boxSizing: 'border-box',
+              width: 240,
+              background: 'rgba(0, 0, 0, 0.95)',
+              backdropFilter: 'blur(10px)',
+              borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+            },
+          }}
+        >
+          {drawer}
+        </Drawer>
+        
         <Box sx={{ 
           width: '100%',
-          px: 2, 
-          py: 2, 
+          px: { xs: 1, sm: 2 }, 
+          py: { xs: 1, sm: 2 }, 
           flex: 1, 
           display: 'flex', 
           flexDirection: 'column',
           position: 'relative',
           zIndex: 2,
           maxWidth: '100vw',
-          backgroundColor: 'background.default'
+          backgroundColor: 'background.default',
+          overflow: 'hidden'
         }}>
           {(
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: { xs: 1, sm: 2 } }}>
               <Typography variant="h4" component="h1" sx={{ 
                 fontWeight: 200, 
                 letterSpacing: '1px',
                 color: 'text.primary', 
-                flexGrow: 1 
+                flexGrow: 1,
+                fontSize: { xs: '1.1rem', sm: '2rem' }
               }}>
                 {activeTab === 'ev' 
                   ? 'Positive Expected Value (EV) Bets' 
@@ -519,7 +592,7 @@ function App() {
             </Box>
           )}*/}
           
-          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', width: '100%' }}>
+          <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', width: '100%', minHeight: 0 }}>
             {activeTab === 'ev' && (
               <BettingTable data={plusEVOpportunities} tableType="ev" isLightMode={false} />
             )}

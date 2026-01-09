@@ -400,11 +400,16 @@ const NFLOdds: React.FC = () => {
         backdropFilter: "blur(10px)",
         borderRadius: 3,
         border: "1px solid rgba(255, 255, 255, 0.05)",
-        overflow: "auto",
+        overflowX: "auto",
+        overflowY: "auto",
         flex: 1,
+        WebkitOverflowScrolling: "touch", // Smooth scrolling on iOS
+        '&::-webkit-scrollbar': {
+          height: '8px',
+        },
       }}
     >
-      <Table aria-label="nfl odds table" stickyHeader sx={{ fontSize: "0.8em" }}>
+      <Table aria-label="nfl odds table" stickyHeader sx={{ fontSize: "0.8em", minWidth: { xs: '800px', sm: 'auto' } }}>
         <TableHead>
           <TableRow sx={{
             borderBottom: "1px solid rgba(255, 255, 255, 0.1)" 
