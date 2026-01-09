@@ -37,19 +37,32 @@ jobs:
       - name: Install deps
         run: npm ci
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+          cache-dependency-path: requirements.txt
+
+      - name: Install Python dependencies
+        run: pip install -r ../requirements.txt
+
       - name: Update NBA odds
         run: node nbaoddsupdate.mjs
 
       - name: Update NFL odds
         run: node nfloddsupdate.mjs
 
+      - name: Predict NBA totals
+        run: python3 predict_nba_totals.py
+
       - name: Commit updated JSON (if changed)
         working-directory: .
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add optimum-picks/public/nbaodds.json optimum-picks/public/nflodds.json optimum-picks/public/nba_game_ids.json optimum-picks/public/nfl_game_ids.json
-          git diff --staged --quiet || git commit -m "Update NBA and NFL odds JSON"
+          git add optimum-picks/public/nbaodds.json optimum-picks/public/nflodds.json optimum-picks/public/nba_game_ids.json optimum-picks/public/nfl_game_ids.json optimum-picks/public/nba_predicted_totals.json
+          git diff --staged --quiet || git commit -m "Update NBA and NFL odds JSON and predictions"
           git push
       
       - name: Build (CRA)
