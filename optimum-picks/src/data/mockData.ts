@@ -18,15 +18,18 @@ export interface BettingData {
 
 export interface OptimumData {
   id: number;
-  player: string;
-  team: string;
-  position: string;
-  propType: string;
-  marketLine: string;
+  gameId?: number;
+  player?: string;
+  team?: string;
+  teams?: string; // For game totals: "Away @ Home"
+  position?: string;
+  propType: string; // "Game Total" for totals, or player prop type
+  marketLine: string; // e.g., "Over 232.5" or "Under 232.5"
   modelPrediction: string;
   differencePercentage: number;
   confidence: number;
   odds: string;
+  startTime?: string;
 }
 
 export const mockData: BettingData[] = [

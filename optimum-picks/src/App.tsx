@@ -9,7 +9,7 @@ import BarChartIcon from '@mui/icons-material/BarChart';
 import BettingTable from './components/BettingTable';
 import OptimumTable from './components/OptimumTable';
 import Dashboard from './components/Dashboard';
-import { mockData, optimumData, BettingData } from './data/mockData';
+import { mockData, optimumData, BettingData, OptimumData } from './data/mockData';
 import './App.css';
 import NBAOdds from './components/NBAOdds';
 import NFLOdds from './components/NFLOdds';
@@ -91,6 +91,7 @@ function App() {
   const [nbaLoading, setNbaLoading] = useState(true);
   const [nflData, setNflData] = useState<any>(null);
   const [nflLoading, setNflLoading] = useState(true);
+  const [predictionsData, setPredictionsData] = useState<any>(null);
 
   // Fetch NBA odds data
   useEffect(() => {
@@ -143,6 +144,34 @@ function App() {
         if (!cancelled) {
           console.error("Failed to load NFL odds:", e);
           setNflLoading(false);
+        }
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  // Fetch NBA predictions
+  useEffect(() => {
+    let cancelled = false;
+
+    (async () => {
+      try {
+        const res = await fetch("/nba_predicted_totals.json", { 
+          cache: "no-store",
+          headers: { "Cache-Control": "no-cache" }
+        });        
+        const text = await res.text();
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${text.slice(0, 180)}`);
+        const json = JSON.parse(text);
+        if (!cancelled) {
+          setPredictionsData(json);
+        }
+      } catch (e: any) {
+        if (!cancelled) {
+          console.error("Failed to load NBA predictions:", e);
         }
       }
     })();
@@ -213,6 +242,77 @@ function App() {
     
     return mockData;
   }, [nbaData, nflData]);
+
+  // Convert predictions to OptimumData format
+  const optimumOpportunities = useMemo(() => {
+    if (!predictionsData?.predictions || !Array.isArray(predictionsData.predictions)) {
+      return optimumData; // Fallback to mock data
+    }
+
+    const opportunities: OptimumData[] = [];
+    let id = 1;
+
+    for (const pred of predictionsData.predictions) {
+      // Only include predictions with recommendations (over/under)
+      if (!pred.recommendation || !pred.market_line || !pred.difference_pct) {
+        continue;
+      }
+
+      // Format start time
+      let eventDate = '';
+      let eventTime = '';
+      if (pred.start_time) {
+        try {
+          const date = new Date(pred.start_time);
+          const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const compareDate = new Date(date);
+          compareDate.setHours(0, 0, 0, 0);
+          const isToday = compareDate.getTime() === today.getTime();
+          
+          if (isToday) {
+            eventDate = 'Today';
+          } else {
+            eventDate = `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}`;
+          }
+          
+          const hours = date.getHours();
+          const minutes = date.getMinutes();
+          const ampm = hours >= 12 ? 'PM' : 'AM';
+          const displayHours = hours % 12 || 12;
+          eventTime = `${displayHours}:${String(minutes).padStart(2, '0')} ${ampm}`;
+        } catch (e) {
+          // Invalid date, skip formatting
+        }
+      }
+
+      const marketLine = `${pred.recommendation === 'over' ? 'Over' : 'Under'} ${pred.market_line}`;
+      
+      // Calculate confidence based on difference magnitude
+      const absDiff = Math.abs(pred.difference_pct);
+      let confidence = Math.min(95, Math.max(50, 50 + absDiff * 2)); // Scale 0-22.5% diff to 50-95% confidence
+
+      opportunities.push({
+        id: id++,
+        gameId: pred.game_id,
+        teams: `${pred.away_team} @ ${pred.home_team}`,
+        propType: 'Game Total',
+        marketLine: marketLine,
+        modelPrediction: pred.predicted_total.toFixed(1),
+        differencePercentage: pred.difference_pct,
+        confidence: Math.round(confidence),
+        odds: pred.odds || '-110',
+        startTime: pred.start_time
+      });
+    }
+
+    // Sort by absolute difference percentage (highest first)
+    opportunities.sort((a, b) => Math.abs(b.differencePercentage) - Math.abs(a.differencePercentage));
+
+    return opportunities.length > 0 ? opportunities : optimumData;
+  }, [predictionsData]);
 
   // Always use dark theme
   const getCurrentTheme = () => darkTheme;
@@ -418,7 +518,7 @@ function App() {
             )}
             
             {activeTab === 'opt' && (
-              <OptimumTable data={optimumData} />
+              <OptimumTable data={optimumOpportunities} />
             )}
             {activeTab === 'nba' && (
               <NBAOdds />

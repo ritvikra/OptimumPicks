@@ -52,7 +52,7 @@ const OptimumTable: React.FC<OptimumTableProps> = ({ data }) => {
               fontWeight: 300, 
               width: '20%',
               background: 'rgba(0, 0, 0, 0.5)'
-            }}>PLAYER</TableCell>
+            }}>GAME / PLAYER</TableCell>
             <TableCell sx={{ 
               color: 'rgba(255, 255, 255, 0.6)', 
               fontSize: '0.75rem', 
@@ -118,16 +118,33 @@ const OptimumTable: React.FC<OptimumTableProps> = ({ data }) => {
             >
               <TableCell sx={{ border: 'none', py: 2 }}>
                 <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                  <Typography sx={{ color: 'rgba(255, 255, 255, 0.85)', fontWeight: 400 }}>
-                    {row.player}
-                  </Typography>
-                  <Typography variant="caption" sx={{ 
-                    color: 'rgba(255, 255, 255, 0.5)',
-                    fontWeight: 300,
-                    fontSize: '0.7rem'
-                  }}>
-                    {row.team} | {row.position}
-                  </Typography>
+                  {row.teams ? (
+                    <>
+                      <Typography sx={{ color: 'rgba(255, 255, 255, 0.85)', fontWeight: 400 }}>
+                        {row.teams}
+                      </Typography>
+                      <Typography variant="caption" sx={{ 
+                        color: 'rgba(255, 255, 255, 0.5)',
+                        fontWeight: 300,
+                        fontSize: '0.7rem'
+                      }}>
+                        {row.propType}
+                      </Typography>
+                    </>
+                  ) : (
+                    <>
+                      <Typography sx={{ color: 'rgba(255, 255, 255, 0.85)', fontWeight: 400 }}>
+                        {row.player}
+                      </Typography>
+                      <Typography variant="caption" sx={{ 
+                        color: 'rgba(255, 255, 255, 0.5)',
+                        fontWeight: 300,
+                        fontSize: '0.7rem'
+                      }}>
+                        {row.team} | {row.position}
+                      </Typography>
+                    </>
+                  )}
                 </Box>
               </TableCell>
               <TableCell sx={{ 
