@@ -1,17 +1,110 @@
 import fs from "node:fs/promises";
+
+// ============================================
+// PART 1: Fetch NBA Team Stats
+// ============================================
+
+console.log("Fetching NBA team stats...");
+
+const url = 'https://stats.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&Height=&ISTRound=&LastNGames=0&LeagueID=00&Location=&MeasureType=Base&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2025-26&SeasonSegment=&SeasonType=Regular%20Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=';
+
+const cheaders = {
+  'Accept': '*/*',
+  'Accept-Language': 'en-US,en;q=0.9',
+  'Cache-Control': 'no-cache',
+  'Connection': 'keep-alive',
+  'Origin': 'https://www.nba.com',
+  'Pragma': 'no-cache',
+  'Referer': 'https://www.nba.com/',
+  'Sec-Fetch-Dest': 'empty',
+  'Sec-Fetch-Mode': 'cors',
+  'Sec-Fetch-Site': 'same-site',
+  'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36',
+  'sec-ch-ua': '"Chromium";v="143", "Not A(Brand";v="24"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"macOS"'
+};
+
+const opps = 'https://stats.nba.com/stats/leaguedashteamstats?Conference=&DateFrom=&DateTo=&Division=&GameScope=&GameSegment=&Height=&ISTRound=&LastNGames=0&LeagueID=00&Location=&MeasureType=Opponent&Month=0&OpponentTeamID=0&Outcome=&PORound=0&PaceAdjust=N&PerMode=PerGame&Period=0&PlayerExperience=&PlayerPosition=&PlusMinus=N&Rank=N&Season=2025-26&SeasonSegment=&SeasonType=Regular%20Season&ShotClockRange=&StarterBench=&TeamID=0&TwoWay=0&VsConference=&VsDivision=';
+
+const oheaders = {
+    'Accept': '*/*' ,
+    'Sec-Fetch-Site' : 'same-site', 
+    'Origin': 'https://www.nba.com', 
+    'Referer': 'https://www.nba.com/', 
+    'Sec-Fetch-Dest': ' empty', 
+    'Accept-Language': ' en-US,en;q=0.9', 
+    'Sec-Fetch-Mode': ' cors' ,
+    'User-Agent': ' Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Safari/605.1.15' ,
+    'Accept-Encoding': ' gzip, deflate, br' ,
+    'Connection': ' keep-alive',
+    'Priority': ' u=3, i',
+};
+
+const res = await fetch(url, { headers: cheaders, method: 'GET' });
+const res2 = await fetch(opps, { headers: oheaders, method: 'GET' });
+
+if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Upstream failed: HTTP ${res.status}: ${text.slice(0, 200)}`);
+}
+if (!res2.ok) {
+    const text = await res2.text();
+    throw new Error(`Upstream failed: HTTP ${res2.status}: ${text.slice(0, 200)}`);
+}
+
+const json = await res.json();
+const json2 = await res2.json();
+
+// Create public directory
+await fs.mkdir("public", { recursive: true });
+
+// Save JSON files
+await fs.writeFile("public/nbateamstats.json", JSON.stringify(json, null, 2) + "\n", "utf8");
+console.log("✓ Wrote public/nbateamstats.json");
+
+await fs.writeFile("public/nbaoppteamstats.json", JSON.stringify(json2, null, 2) + "\n", "utf8");
+console.log("✓ Wrote public/nbaoppteamstats.json");
+
+// Parse and convert to CSV
+const { headers, rowSet } = json.resultSets[0];
+const { headers: headers2, rowSet: rowSet2 } = json2.resultSets[0];
+
+const csvLines = [];
+csvLines.push(headers.join(','));
+for (const row of rowSet) {
+  csvLines.push(row.map(v => (v == null ? '' : v)).join(','));
+}
+
+const csvLines2 = [];
+csvLines2.push(headers2.join(','));
+for (const row of rowSet2) {
+  csvLines2.push(row.map(v => (v == null ? '' : v)).join(','));
+}
+
+// Write CSV files
+await fs.writeFile('public/nbateamstats.csv', csvLines.join('\n'));
+await fs.writeFile('public/nbaoppteamstats.csv', csvLines2.join('\n'));
+console.log("✓ Wrote CSV files");
+
+// ============================================
+// PART 2: Fetch NBA Odds/Games
+// ============================================
+
+console.log("\nFetching NBA games/odds...");
+
 const now = new Date();
 const year = now.getFullYear();
 const month = String(now.getMonth() + 1).padStart(2, "0");
 const day = String(now.getDate()).padStart(2, "0");
 const dateStr = `${year}${month}${day}`;
 
-const URL = `https://api.actionnetwork.com/web/v2/scoreboard/nba` +
+const oddsURL = `https://api.actionnetwork.com/web/v2/scoreboard/nba` +
   `?bookIds=15,30,647,510,68,3151,645,1867,1901,841,1904,79` +
   `&date=${dateStr}` +
   `&periods=event`;
 
-
-const res = await fetch(URL, {
+const oddsRes = await fetch(oddsURL, {
   headers: {
     "User-Agent": "Mozilla/5.0",
     Accept: "application/json",
@@ -19,21 +112,20 @@ const res = await fetch(URL, {
   },
 });
 
-if (!res.ok) {
-  const text = await res.text();
-  throw new Error(`Upstream failed: HTTP ${res.status}: ${text.slice(0, 200)}`);
+if (!oddsRes.ok) {
+  const text = await oddsRes.text();
+  throw new Error(`Upstream failed: HTTP ${oddsRes.status}: ${text.slice(0, 200)}`);
 }
 
-const json = await res.json();
-const games = Array.isArray(json?.games) ? json.games : [];
-const game_ids = [];
-for (const g of games) {
-  game_ids.push(g.id);
-}
-const nba_game_ids = JSON.stringify(game_ids);
-// Save into CRA public/ so it’s served at /scoreboard.json in production
-await fs.mkdir("public", { recursive: true });
-await fs.writeFile("public/nbaodds.json", JSON.stringify(json, null, 2) + "\n", "utf8");
-await fs.writeFile("public/nba_game_ids.json", nba_game_ids + "\n", "utf8");
-console.log("Wrote public/nbaodds.json");
-console.log("wrote nba_game_ids too")
+const oddsJson = await oddsRes.json();
+const games = Array.isArray(oddsJson?.games) ? oddsJson.games : [];
+const game_ids = games.map(g => g.id);
+
+// Save JSON files
+await fs.writeFile("public/nbaodds.json", JSON.stringify(oddsJson, null, 2) + "\n", "utf8");
+console.log("✓ Wrote public/nbaodds.json");
+
+await fs.writeFile("public/nba_game_ids.json", JSON.stringify(game_ids) + "\n", "utf8");
+console.log("✓ Wrote public/nba_game_ids.json");
+
+console.log("\n✓ All data fetched and saved successfully!");
