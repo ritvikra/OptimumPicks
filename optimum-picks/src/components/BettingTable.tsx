@@ -96,7 +96,7 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMod
               fontWeight: 300, 
               width: '14%',
               background: isLightMode ? 'rgba(0, 0, 0, 0.05)' : 'rgba(0, 0, 0, 0.5)'
-            }}>1-CLICK BET</TableCell>
+            }}>ODDS</TableCell>
             {/* Show Probability only in EV table */}
             {tableType === 'ev' && (
               <TableCell sx={{ 
