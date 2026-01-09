@@ -168,14 +168,6 @@ Finds opportunities where:
 - Predicts game totals with RMSE ~4.3 points
 - Recommends bets when model differs significantly from market line
 
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-[Add your license here]
-
 ## Acknowledgments
 
 - Action Network for odds data
