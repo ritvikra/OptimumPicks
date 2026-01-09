@@ -74,16 +74,16 @@ const lightTheme = createTheme({
 
 function App() {
   // Load saved tab from localStorage, default to 'ev'
-  const [activeTab, setActiveTab] = useState<'ev' | 'arb' | 'opt' | 'nba' | 'nfl' | 'analytics'>(() => {
+  const [activeTab, setActiveTab] = useState<'ev' | 'arb' | 'opt' | 'nba' | 'nfl'>(() => {
     const savedTab = localStorage.getItem('activeTab');
-    if (savedTab && ['ev', 'arb', 'opt', 'nba', 'nfl', 'analytics'].includes(savedTab)) {
-      return savedTab as 'ev' | 'arb' | 'opt' | 'nba' | 'nfl' | 'analytics';
+    if (savedTab && ['ev', 'arb', 'opt', 'nba', 'nfl'].includes(savedTab)) {
+      return savedTab as 'ev' | 'arb' | 'opt' | 'nba' | 'nfl';
     }
     return 'ev';
   });
 
   // Save tab to localStorage whenever it changes
-  const handleTabChange = (tab: 'ev' | 'arb' | 'opt' | 'nba' | 'nfl' | 'analytics') => {
+  const handleTabChange = (tab: 'ev' | 'arb' | 'opt' | 'nba' | 'nfl') => {
     setActiveTab(tab);
     localStorage.setItem('activeTab', tab);
   };
@@ -430,7 +430,7 @@ function App() {
               NFL Odds
             </Button>
 
-            <Button 
+            {/*<Button 
               onClick={() => handleTabChange('analytics')}
               sx={{ 
                 color: activeTab === 'analytics' ? '#00FFAB' : 'rgba(255,255,255,0.5)', 
@@ -449,7 +449,7 @@ function App() {
               startIcon={<BarChartIcon />}
             >
               Analytics
-            </Button>
+            </Button>*/}
             
             <Box sx={{ flexGrow: 1 }} />
             
@@ -471,7 +471,7 @@ function App() {
           maxWidth: '100vw',
           backgroundColor: 'background.default'
         }}>
-          {activeTab !== 'analytics' && (
+          {(
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <Typography variant="h4" component="h1" sx={{ 
                 fontWeight: 200, 
@@ -495,7 +495,7 @@ function App() {
             </Box>
           )}
           
-          {activeTab === 'analytics' && (
+          {/*{activeTab === 'analytics' && (
             <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
               <Typography variant="h4" component="h1" sx={{ 
                 fontWeight: 200, 
@@ -506,7 +506,7 @@ function App() {
                 Analytics Dashboard
               </Typography>
             </Box>
-          )}
+          )}*/}
           
           <Box sx={{ flex: 1, display: 'flex', flexDirection: 'column', overflow: 'auto', width: '100%' }}>
             {activeTab === 'ev' && (
@@ -525,9 +525,6 @@ function App() {
             )}
             {activeTab === 'nfl' && (
               <NFLOdds />
-            )}
-            {activeTab === 'analytics' && (
-              <Dashboard data={mockData} />
             )}
           </Box>
         </Box>
