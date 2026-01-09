@@ -43,7 +43,6 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMod
         border: isLightMode ? '1px solid rgba(0, 0, 0, 0.1)' : '1px solid rgba(255, 255, 255, 0.05)',
         overflowX: 'auto',
         overflowY: 'auto',
-        width: '100%',
         height: 'auto',
         minHeight: 'fit-content',
         WebkitOverflowScrolling: 'touch', // Smooth scrolling on iOS
@@ -58,7 +57,9 @@ const BettingTable: React.FC<BettingTableProps> = ({ data, tableType, isLightMod
         sx={{ 
           width: '100%', 
           tableLayout: { xs: 'auto', sm: 'fixed' },
-          minWidth: { xs: '600px', sm: 'auto' } // Ensure table doesn't get too narrow on mobile
+          minWidth: { xs: '600px', sm: 'auto' }, // Ensure table doesn't get too narrow on mobile
+          transform: { xs: 'scale(0.9)', sm: 'scale(1)' },
+          transformOrigin: 'top left',
         }}
       >
         <TableHead>

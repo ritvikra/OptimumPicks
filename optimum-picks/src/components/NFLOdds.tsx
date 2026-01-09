@@ -409,21 +409,27 @@ const NFLOdds: React.FC = () => {
         },
       }}
     >
-      <Table aria-label="nfl odds table" stickyHeader sx={{ fontSize: "0.8em", minWidth: { xs: '800px', sm: 'auto' } }}>
+      <Table aria-label="nfl odds table" stickyHeader sx={{ 
+        fontSize: { xs: "0.65em", sm: "0.8em" }, 
+        minWidth: { xs: '800px', sm: 'auto' },
+        transform: { xs: 'scale(0.85)', sm: 'scale(1)' },
+        transformOrigin: 'top left',
+      }}>
         <TableHead>
           <TableRow sx={{
             borderBottom: "1px solid rgba(255, 255, 255, 0.1)" 
             }}>
             <TableCell
               sx={{
-                position: "sticky",
-                left: 0,
-                zIndex: 3,
+                position: { xs: "static", sm: "sticky" },
+                left: { xs: "auto", sm: 0 },
+                zIndex: { xs: 1, sm: 3 },
                 color: "rgba(255, 255, 255, 0.6)",
-                fontSize: "0.75rem",
+                fontSize: { xs: "0.65rem", sm: "0.75rem" },
                 letterSpacing: "1px",
                 fontWeight: 300,
-                width: 260,
+                width: { xs: 120, sm: 180 },
+                minWidth: { xs: 120, sm: 180 },
                 background: "rgb(0, 0, 0)",
               }}
             >
@@ -431,14 +437,15 @@ const NFLOdds: React.FC = () => {
             </TableCell>
             <TableCell
               sx={{
-                position: "sticky",
-                left: 150,  // GAME width
-                zIndex: 3,
+                position: { xs: "static", sm: "sticky" },
+                left: { xs: "auto", sm: 180 },
+                zIndex: { xs: 1, sm: 3 },
                 color: "rgba(255, 255, 255, 0.6)",
-                fontSize: "0.75rem",
+                fontSize: { xs: "0.65rem", sm: "0.75rem" },
                 letterSpacing: "1px",
                 fontWeight: 500,
-                width: 500,
+                width: { xs: 200, sm: 300 },
+                minWidth: { xs: 200, sm: 300 },
                 background: "rgb(24, 68, 53)",
               }}
             >
@@ -449,10 +456,10 @@ const NFLOdds: React.FC = () => {
                 key={bookId}
                 sx={{
                   color: "rgba(255, 255, 255, 0.6)",
-                  fontSize: "0.75rem",
+                  fontSize: { xs: "0.65rem", sm: "0.75rem" },
                   letterSpacing: "1px",
                   fontWeight: 300,
-                  minWidth: 220,
+                  minWidth: { xs: 180, sm: 220 },
                   background: "rgba(0, 0, 0, 0.5)",
                 }}
               >
@@ -484,14 +491,16 @@ const NFLOdds: React.FC = () => {
                 }}
               >
                 <TableCell sx={{ 
-                  position: "sticky", 
-                  left: 0, 
-                  zIndex: 3, 
+                  position: { xs: "static", sm: "sticky" }, 
+                  left: { xs: "auto", sm: 0 }, 
+                  zIndex: { xs: 1, sm: 3 }, 
                   border: "none", 
-                  py: 2, 
+                  py: { xs: 1, sm: 2 }, 
                   verticalAlign: "top",
-                  minWidth: 150,
+                  width: { xs: 120, sm: 180 },
+                  minWidth: { xs: 120, sm: 180 },
                   borderRight: "1px solid rgba(255,255,255,0.08)", 
+                  background: "rgb(0, 0, 0)",
                 }}>
                   <Box sx={{ display: "flex", flexDirection: "column", gap: 0.5 }}>
                     <Typography sx={{ color: "rgba(255,255,255,0.9)", fontWeight: 400 }}>
@@ -505,14 +514,15 @@ const NFLOdds: React.FC = () => {
                 </TableCell>
 
                 <TableCell sx={{
-                  position: "sticky",
-                  left: 150,  // GAME width
-                  zIndex: 3, 
+                  position: { xs: "static", sm: "sticky" },
+                  left: { xs: "auto", sm: 180 },
+                  zIndex: { xs: 1, sm: 3 }, 
                   borderRight: "1px solid rgba(255,255,255,0.08)", 
-                  py: 2, 
+                  py: { xs: 1, sm: 2 }, 
                   verticalAlign: "top", 
                   justifySelf: "baseline",
-                  minWidth: 300,
+                  width: { xs: 200, sm: 300 },
+                  minWidth: { xs: 200, sm: 300 },
                   backgroundColor: "rgb(0, 30, 0) !important",  // Green tint for "best" - override row colors
                   "&:hover": {
                     backgroundColor: "rgb(0, 30, 0) !important",  // Maintain green on hover
@@ -530,7 +540,7 @@ const NFLOdds: React.FC = () => {
                     cell.spreadAway || cell.spreadHome || cell.totalOver || cell.totalUnder || cell.mlAway || cell.mlHome;
 
                   return (
-                    <TableCell key={bookId} sx={{ paddingRight: "10px", py: 2, verticalAlign: "top", borderRight: "1px solid rgba(255,255,255,0.08)" }}>
+                    <TableCell key={bookId} sx={{ paddingRight: { xs: "5px", sm: "10px" }, py: { xs: 1, sm: 2 }, verticalAlign: "top", borderRight: "1px solid rgba(255,255,255,0.08)" }}>
                       {hasAnything ? (
                         <BookOddsCell cell={cell} awayAbbr={awayAbbr} homeAbbr={homeAbbr} />
                       ) : (

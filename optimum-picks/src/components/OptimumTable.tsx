@@ -47,7 +47,11 @@ const OptimumTable: React.FC<OptimumTableProps> = ({ data }) => {
         },
       }}
     >
-      <Table aria-label="optimum table" stickyHeader sx={{ minWidth: { xs: '700px', sm: 'auto' } }}>
+      <Table aria-label="optimum table" stickyHeader sx={{ 
+        minWidth: { xs: '700px', sm: 'auto' },
+        transform: { xs: 'scale(0.9)', sm: 'scale(1)' },
+        transformOrigin: 'top left',
+      }}>
         <TableHead>
           <TableRow sx={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
             <TableCell sx={{ 
