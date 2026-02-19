@@ -47,6 +47,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add optimum-picks/public/nbaodds.json
           git diff --staged --quiet || git commit -m "Update nba odds JSON"
+          git pull --rebase
           git push
       
       - name: Build (CRA)
