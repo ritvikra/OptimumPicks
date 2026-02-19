@@ -390,6 +390,29 @@ const NFLOdds: React.FC = () => {
     );
   }
 
+  // NFL season runs Sept–Feb; before September = off-season
+  const isOffSeason = new Date().getMonth() < 8; // 0–7 = Jan–Aug
+  if (isOffSeason) {
+    return (
+      <Paper
+        sx={{
+          p: 3,
+          background: "rgba(0, 0, 0, 0.4)",
+          color: "rgba(255, 255, 255, 0.85)",
+          boxShadow: "none",
+          backdropFilter: "blur(10px)",
+          borderRadius: 3,
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+        }}
+      >
+        <Typography sx={{ color: "rgba(255,255,255,0.9)", fontWeight: 500 }}>Season is over</Typography>
+        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+          NFL odds will return when the season resumes in September.
+        </Typography>
+      </Paper>
+    );
+  }
+
   return (
     <TableContainer
       component={Paper}

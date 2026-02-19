@@ -132,29 +132,55 @@ if (isGitHubActions) {
 console.log("\nFetching NBA games/odds...");
 
 const now = new Date();
-const year = now.getFullYear();
-const month = String(now.getMonth() + 1).padStart(2, "0");
-const day = String(now.getDate()).padStart(2, "0");
-const dateStr = `${year}${month}${day}`;
 
-const oddsURL = `https://api.actionnetwork.com/web/v2/scoreboard/nba?bookIds=15,30,647,510,68,3151,645,1867,1901,841,1904,79&date=${dateStr}&periods=event`;
-
-try {
-  const oddsRes = await fetchWithRetry(oddsURL, {
+// Fetch today + next 2 days; some days have no games (All-Star, off-days)
+// Merge and dedupe by game id so we always have upcoming games when available
+async function fetchGamesForDate(year, month, day) {
+  const dateStr = `${year}${String(month).padStart(2, "0")}${String(day).padStart(2, "0")}`;
+  const url = `https://api.actionnetwork.com/web/v2/scoreboard/nba?bookIds=15,30,647,510,68,3151,645,1867,1901,841,1904,79&date=${dateStr}&periods=event`;
+  const res = await fetchWithRetry(url, {
     headers: {
       "User-Agent": "Mozilla/5.0",
       Accept: "application/json",
       "Accept-Encoding": "gzip, deflate, br",
     },
   });
-
-  if (!oddsRes.ok) {
-    const text = await oddsRes.text();
-    throw new Error(`Upstream failed: HTTP ${oddsRes.status}: ${text.slice(0, 200)}`);
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`Upstream failed: HTTP ${res.status}: ${text.slice(0, 200)}`);
   }
+  const json = await res.json();
+  return { json, dateStr };
+}
 
-  const oddsJson = await oddsRes.json();
-  const games = Array.isArray(oddsJson?.games) ? oddsJson.games : [];
+try {
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const day = now.getDate();
+
+  const results = [];
+  for (let offset = 0; offset < 3; offset++) {
+    const d = new Date(year, now.getMonth(), day + offset);
+    results.push(
+      fetchGamesForDate(d.getFullYear(), d.getMonth() + 1, d.getDate())
+    );
+  }
+  const resolved = await Promise.all(results);
+
+  // Use first response for league/market_rules, merge games from all dates
+  const oddsJson = resolved[0].json;
+  const seen = new Set();
+  const games = [];
+  for (const { json } of resolved) {
+    const dayGames = Array.isArray(json?.games) ? json.games : [];
+    for (const g of dayGames) {
+      if (g?.id && !seen.has(g.id)) {
+        seen.add(g.id);
+        games.push(g);
+      }
+    }
+  }
+  oddsJson.games = games.sort((a, b) => (a?.start_time || "").localeCompare(b?.start_time || ""));
   const game_ids = games.map(g => g.id);
 
   // Create public directory
