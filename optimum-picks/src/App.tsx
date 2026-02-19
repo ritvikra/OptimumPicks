@@ -256,10 +256,10 @@ function App() {
     return mockData;
   }, [nbaData, nflData]);
 
-  // Convert predictions to OptimumData format
+  // Convert predictions to OptimumData format (XGBoost model predictions)
   const optimumOpportunities = useMemo(() => {
     if (!predictionsData?.predictions || !Array.isArray(predictionsData.predictions)) {
-      return optimumData; // Fallback to mock data
+      return optimumData; // Fallback when predictions not yet loaded
     }
 
     const opportunities: OptimumData[] = [];
@@ -324,7 +324,8 @@ function App() {
     // Sort by absolute difference percentage (highest first)
     opportunities.sort((a, b) => Math.abs(b.differencePercentage) - Math.abs(a.differencePercentage));
 
-    return opportunities.length > 0 ? opportunities : optimumData;
+    // Use real predictions only; never fall back to mock when predictions were loaded
+    return opportunities.length > 0 ? opportunities : [];
   }, [predictionsData]);
 
   // Always use dark theme
@@ -602,7 +603,14 @@ function App() {
             )}
             
             {activeTab === 'opt' && (
-              <OptimumTable data={optimumOpportunities} />
+              <OptimumTable
+                data={optimumOpportunities}
+                isEmptyFromPredictions={
+                  !!predictionsData?.predictions &&
+                  Array.isArray(predictionsData.predictions) &&
+                  optimumOpportunities.length === 0
+                }
+              />
             )}
             {activeTab === 'nba' && (
               <NBAOdds />

@@ -20,13 +20,36 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
 interface OptimumTableProps {
   data: OptimumData[];
+  /** True when predictions were loaded but none have over/under recommendations */
+  isEmptyFromPredictions?: boolean;
 }
 
-const OptimumTable: React.FC<OptimumTableProps> = ({ data }) => {
+const OptimumTable: React.FC<OptimumTableProps> = ({ data, isEmptyFromPredictions }) => {
   // Sort data by difference magnitude (abs value of difference)
   const sortedData = [...data].sort((a, b) => {
     return Math.abs(b.differencePercentage) - Math.abs(a.differencePercentage);
   });
+
+  if (sortedData.length === 0 && isEmptyFromPredictions) {
+    return (
+      <Paper
+        sx={{
+          p: 3,
+          background: "rgba(0, 0, 0, 0.4)",
+          color: "rgba(255, 255, 255, 0.85)",
+          boxShadow: "none",
+          backdropFilter: "blur(10px)",
+          borderRadius: 3,
+          border: "1px solid rgba(255, 255, 255, 0.05)",
+        }}
+      >
+        <Typography sx={{ color: "rgba(255,255,255,0.9)", fontWeight: 500 }}>No value picks from XGBoost model</Typography>
+        <Typography variant="body2" sx={{ color: "rgba(255,255,255,0.7)" }}>
+          The model compares predicted totals to market lines. When no games have a difference of 2+ points, no picks are shown. Predictions update every 20 minutes.
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <TableContainer 
