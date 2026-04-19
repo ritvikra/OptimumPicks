@@ -2579,8 +2579,8 @@
       "id": 288541,
       "league_id": 4,
       "status": "inprogress",
-      "real_status": "halftime",
-      "status_display": "Half",
+      "real_status": "inprogress",
+      "status_display": "3rd 4:15",
       "start_time": "2026-04-19T19:30:00.000Z",
       "away_team_id": 183,
       "home_team_id": 175,
@@ -2644,9 +2644,29 @@
       "meta": {},
       "num_bets": 37638,
       "core_id": 12234740,
+      "last_play": {
+        "text": "Thunder lineup change (Alex Caruso, Luguentz Dort, Cason Wallace, Shai Gilgeous-Alexander, Chet Holmgren)",
+        "type": "lineupchange",
+        "clock": "4:15",
+        "possession": 175,
+        "home_win_pct": 0.9800076420712083,
+        "over_win_pct": 0.5450602100233248,
+        "home_spread_win_pct": 0.7323389311944479
+      },
       "boxscore": {
-        "clock": "00:00",
-        "period": 2,
+        "bonus": {
+          "double": {
+            "away": false,
+            "home": true
+          }
+        },
+        "clock": "04:15",
+        "period": 3,
+        "outcome": {
+          "times_tied": 3,
+          "lead_changes": 1
+        },
+        "duration": "00:00",
         "linescore": [
           {
             "id": 1,
@@ -2669,8 +2689,8 @@
             "abbr": "3",
             "display_name": "3rd",
             "full_name": "3rd Quarter",
-            "away_points": null,
-            "home_points": null
+            "away_points": 19,
+            "home_points": 18
           },
           {
             "id": 4,
@@ -2681,13 +2701,93 @@
             "home_points": null
           }
         ],
-        "total_away_points": 44,
-        "total_home_points": 65,
-        "halftime": true,
+        "latest_odds": {
+          "game": {
+            "over": -109,
+            "total": 216.5,
+            "under": -110,
+            "ml_away": 825,
+            "ml_home": -1500,
+            "spread_away": 15.5,
+            "spread_home": -15.5,
+            "spread_away_line": -110,
+            "spread_home_line": -110
+          },
+          "live": {
+            "over": -115,
+            "total": 216.5,
+            "under": -115,
+            "ml_away": 725,
+            "ml_home": -1400,
+            "spread_away": 15.5,
+            "spread_home": -15.5,
+            "spread_away_line": -115,
+            "spread_home_line": -115
+          },
+          "firsthalf": {
+            "over": -109,
+            "total": 111.5,
+            "under": -111,
+            "ml_away": 370,
+            "ml_home": -437,
+            "spread_away": 9.5,
+            "spread_home": -9.5,
+            "spread_away_line": -115,
+            "spread_home_line": -105
+          },
+          "firstquarter": {
+            "over": -118,
+            "total": 55.5,
+            "under": -108,
+            "ml_away": 245,
+            "ml_home": -310,
+            "spread_away": 5,
+            "spread_home": -5,
+            "spread_away_line": -110,
+            "spread_home_line": -110
+          },
+          "thirdquarter": {
+            "over": -105,
+            "total": 53.5,
+            "under": -108,
+            "ml_away": 195,
+            "ml_home": -260,
+            "spread_away": 3.5,
+            "spread_home": -3.5,
+            "spread_away_line": 102,
+            "spread_home_line": -118
+          },
+          "fourthquarter": {
+            "over": -105,
+            "total": 51.5,
+            "under": -122,
+            "ml_away": 180,
+            "ml_home": -225,
+            "spread_away": 3.5,
+            "spread_home": -3.5,
+            "spread_away_line": -105,
+            "spread_home_line": -115
+          },
+          "secondquarter": {
+            "over": -120,
+            "total": 55.5,
+            "under": -115,
+            "ml_away": 225,
+            "ml_home": -290,
+            "spread_away": 4.5,
+            "spread_home": -4.5,
+            "spread_away_line": -113,
+            "spread_home_line": -113
+          }
+        },
+        "away_timeouts": 2,
+        "home_timeouts": 6,
+        "total_away_points": 63,
+        "total_home_points": 83,
         "total_away_firsthalf_points": 44,
         "total_home_firsthalf_points": 65,
-        "total_away_secondhalf_points": 0,
-        "total_home_secondhalf_points": 0,
+        "total_away_secondhalf_points": 19,
+        "total_home_secondhalf_points": 18,
         "total_away_firstfive_points": 0
       },
       "series": {
@@ -2726,8 +2826,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 175,
-                "odds": -118,
-                "value": 120.5,
+                "odds": -110,
+                "value": 118.5,
                 "is_live": true,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -2759,7 +2859,7 @@
                 "period": "event",
                 "team_id": 183,
                 "odds": -110,
-                "value": 92.5,
+                "value": 94.5,
                 "is_live": true,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -2886,8 +2986,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 175,
-                "odds": -110,
-                "value": 120.5,
+                "odds": -115,
+                "value": 118.5,
                 "is_live": true,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -2951,7 +3051,7 @@
                 "period": "event",
                 "team_id": 183,
                 "odds": -115,
-                "value": 92.5,
+                "value": 94.5,
                 "is_live": true,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -3106,7 +3206,7 @@
                 "period": "event",
                 "team_id": 175,
                 "odds": -120,
-                "value": -26.5,
+                "value": -25.5,
                 "is_live": true,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -3136,7 +3236,7 @@
                 "period": "event",
                 "team_id": 183,
                 "odds": -110,
-                "value": 26.5,
+                "value": 25.5,
                 "is_live": true,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -3226,7 +3326,7 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -109,
+                "odds": -113,
                 "value": 216,
                 "is_live": false,
                 "deeplink_id": "",
@@ -3255,7 +3355,7 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -113,
+                "odds": -111,
                 "value": 216,
                 "is_live": false,
                 "deeplink_id": "",
@@ -3284,7 +3384,7 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -115,
+                "odds": -118,
                 "value": 213.5,
                 "is_live": true,
                 "deeplink_id": "",
@@ -3313,7 +3413,7 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -115,
+                "odds": -110,
                 "value": 213.5,
                 "is_live": true,
                 "deeplink_id": "",
@@ -3711,7 +3811,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 183,
-                "odds": 9000,
+                "odds": 8000,
                 "value": 0,
                 "is_live": true,
                 "deeplink_id": "ML2591739791",
@@ -3803,7 +3903,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 175,
-                "odds": -115,
+                "odds": -110,
                 "value": -27.5,
                 "is_live": true,
                 "deeplink_id": "ML2591739833",
@@ -3833,7 +3933,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 183,
-                "odds": -115,
+                "odds": -120,
                 "value": 27.5,
                 "is_live": true,
                 "deeplink_id": "ML2591739835",
@@ -3893,8 +3993,8 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -110,
-                "value": 215.5,
+                "odds": -120,
+                "value": 210.5,
                 "is_live": true,
                 "deeplink_id": "ML2591739928",
                 "line_status": "normal",
@@ -3908,7 +4008,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": -0.10667,
+                "odds_coefficient_score": -0.04305,
                 "is_alt_market": false
               },
               {
@@ -3951,8 +4051,8 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -120,
-                "value": 215.5,
+                "odds": -110,
+                "value": 210.5,
                 "is_live": true,
                 "deeplink_id": "ML2591739932",
                 "line_status": "normal",
@@ -3966,7 +4066,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": 0.037404,
+                "odds_coefficient_score": -0.02621,
                 "is_alt_market": false
               }
             ]
@@ -4139,8 +4239,8 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 183,
-                "odds": -120,
-                "value": 28.5,
+                "odds": -114,
+                "value": 25.5,
                 "is_live": true,
                 "deeplink_id": "ML2591736978",
                 "line_status": "normal",
@@ -4199,8 +4299,8 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 175,
-                "odds": -112,
-                "value": -28.5,
+                "odds": -117,
+                "value": -25.5,
                 "is_live": true,
                 "deeplink_id": "ML2591736977",
                 "line_status": "normal",
@@ -4230,8 +4330,8 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -117,
-                "value": 214,
+                "odds": -115,
+                "value": 214.5,
                 "is_live": true,
                 "deeplink_id": "ML2591737173",
                 "line_status": "normal",
@@ -4245,7 +4345,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": 0.018332,
+                "odds_coefficient_score": 0.031103,
                 "is_alt_market": false
               },
               {
@@ -4317,8 +4417,8 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -114,
-                "value": 214,
+                "odds": -115,
+                "value": 214.5,
                 "is_live": true,
                 "deeplink_id": "ML2591737169",
                 "line_status": "normal",
@@ -4332,7 +4432,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": -0.09021,
+                "odds_coefficient_score": -0.10087,
                 "is_alt_market": false
               }
             ]
@@ -4354,42 +4454,10 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 175,
-                "odds": -125,
-                "value": 120.5,
+                "odds": -105,
+                "value": 119.5,
                 "is_live": true,
                 "deeplink_id": "ML2591740854",
-                "line_status": "normal",
-                "bet_info": {
-                  "tickets": {
-                    "value": 0,
-                    "percent": 0
-                  },
-                  "money": {
-                    "value": 0,
-                    "percent": 0
-                  }
-                },
-                "prop_type_id": 166,
-                "odds_coefficient_score": null,
-                "is_alt_market": false
-              },
-              {
-                "outcome_id": "2591740800",
-                "market_id": "20779043",
-                "event_type": "game",
-                "event_id": 288541,
-                "league_id": 4,
-                "book_id": 510,
-                "book_parent_id": 1,
-                "type": "core_bet_type_6_team_score",
-                "option_type_id": 1,
-                "side": "over",
-                "period": "event",
-                "team_id": 183,
-                "odds": -105,
-                "value": 92.5,
-                "is_live": true,
-                "deeplink_id": "ML2591740800",
                 "line_status": "normal",
                 "bet_info": {
                   "tickets": {
@@ -4418,10 +4486,42 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 175,
-                "odds": -102,
-                "value": 120.5,
+                "odds": -120,
+                "value": 119.5,
                 "is_live": true,
                 "deeplink_id": "ML2591740862",
+                "line_status": "normal",
+                "bet_info": {
+                  "tickets": {
+                    "value": 0,
+                    "percent": 0
+                  },
+                  "money": {
+                    "value": 0,
+                    "percent": 0
+                  }
+                },
+                "prop_type_id": 166,
+                "odds_coefficient_score": null,
+                "is_alt_market": false
+              },
+              {
+                "outcome_id": "2591740800",
+                "market_id": "20779043",
+                "event_type": "game",
+                "event_id": 288541,
+                "league_id": 4,
+                "book_id": 510,
+                "book_parent_id": 1,
+                "type": "core_bet_type_6_team_score",
+                "option_type_id": 1,
+                "side": "over",
+                "period": "event",
+                "team_id": 183,
+                "odds": -120,
+                "value": 92.5,
+                "is_live": true,
+                "deeplink_id": "ML2591740800",
                 "line_status": "normal",
                 "bet_info": {
                   "tickets": {
@@ -4450,7 +4550,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 183,
-                "odds": -120,
+                "odds": -105,
                 "value": 92.5,
                 "is_live": true,
                 "deeplink_id": "ML2591740813",
@@ -4545,8 +4645,8 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 183,
-                "odds": -115,
-                "value": 28.5,
+                "odds": -118,
+                "value": 26.5,
                 "is_live": true,
                 "deeplink_id": "ML2591740834",
                 "line_status": "normal",
@@ -4575,8 +4675,8 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 175,
-                "odds": -115,
-                "value": -28.5,
+                "odds": -110,
+                "value": -26.5,
                 "is_live": true,
                 "deeplink_id": "ML2591740843",
                 "line_status": "normal",
@@ -4607,7 +4707,7 @@
                 "side": "over",
                 "period": "event",
                 "odds": -110,
-                "value": 213.5,
+                "value": 212.5,
                 "is_live": true,
                 "deeplink_id": "ML2591740742",
                 "line_status": "normal",
@@ -4621,7 +4721,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": -0.0728,
+                "odds_coefficient_score": -0.05572,
                 "is_alt_market": false
               },
               {
@@ -4635,8 +4735,8 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -115,
-                "value": 213.5,
+                "odds": -118,
+                "value": 212.5,
                 "is_live": true,
                 "deeplink_id": "ML2591740759",
                 "line_status": "normal",
@@ -4650,7 +4750,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": 0.014109,
+                "odds_coefficient_score": -0.00938,
                 "is_alt_market": false
               }
             ]
@@ -4672,8 +4772,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 183,
-                "odds": -115,
-                "value": 92.5,
+                "odds": -110,
+                "value": 93.5,
                 "is_live": true,
                 "deeplink_id": "ML2591772426",
                 "line_status": "normal",
@@ -4705,7 +4805,7 @@
                 "period": "event",
                 "team_id": 175,
                 "odds": -115,
-                "value": 119.5,
+                "value": 121.5,
                 "is_live": true,
                 "deeplink_id": "ML2591772286",
                 "line_status": "normal",
@@ -4737,7 +4837,7 @@
                 "period": "event",
                 "team_id": 175,
                 "odds": -115,
-                "value": 119.5,
+                "value": 121.5,
                 "is_live": true,
                 "deeplink_id": "ML2591772284",
                 "line_status": "normal",
@@ -4768,8 +4868,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 183,
-                "odds": -115,
-                "value": 92.5,
+                "odds": -120,
+                "value": 93.5,
                 "is_live": true,
                 "deeplink_id": "ML2591772425",
                 "line_status": "normal",
@@ -4801,7 +4901,7 @@
                 "side": "under",
                 "period": "event",
                 "odds": -110,
-                "value": 212.5,
+                "value": 215.5,
                 "is_live": true,
                 "deeplink_id": "ML2591769564",
                 "line_status": "normal",
@@ -4815,7 +4915,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": 0.008099,
+                "odds_coefficient_score": 0.059049,
                 "is_alt_market": false
               },
               {
@@ -4830,7 +4930,7 @@
                 "side": "over",
                 "period": "event",
                 "odds": -120,
-                "value": 212.5,
+                "value": 215.5,
                 "is_live": true,
                 "deeplink_id": "ML2591769559",
                 "line_status": "normal",
@@ -4844,7 +4944,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": -0.07736,
+                "odds_coefficient_score": -0.12831,
                 "is_alt_market": false
               }
             ]
@@ -4866,8 +4966,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 175,
-                "odds": -114,
-                "value": 120.5,
+                "odds": -132,
+                "value": 121.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756974",
                 "line_status": "normal",
@@ -4994,8 +5094,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 183,
-                "odds": -120,
-                "value": 92.5,
+                "odds": -130,
+                "value": 93.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756901",
                 "line_status": "normal",
@@ -5026,8 +5126,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 175,
-                "odds": -114,
-                "value": 120.5,
+                "odds": -100,
+                "value": 121.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756973",
                 "line_status": "normal",
@@ -5058,8 +5158,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 183,
-                "odds": -110,
-                "value": 92.5,
+                "odds": -102,
+                "value": 93.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756903",
                 "line_status": "normal",
@@ -5185,7 +5285,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 183,
-                "odds": 102,
+                "odds": -108,
                 "value": 26.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756857",
@@ -5275,7 +5375,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 175,
-                "odds": -136,
+                "odds": -122,
                 "value": -26.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756861",
@@ -5306,8 +5406,8 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -132,
-                "value": 214.5,
+                "odds": -125,
+                "value": 215.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756836",
                 "line_status": "normal",
@@ -5393,8 +5493,8 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -100,
-                "value": 214.5,
+                "odds": -106,
+                "value": 215.5,
                 "is_live": true,
                 "deeplink_id": "ML2591756832",
                 "line_status": "normal",
@@ -5408,7 +5508,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": null,
+                "odds_coefficient_score": -0.09742,
                 "is_alt_market": false
               }
             ]
@@ -5418,7 +5518,7 @@
           "event": {
             "core_bet_type_6_team_score": [
               {
-                "outcome_id": "2591757347",
+                "outcome_id": "2591757348",
                 "market_id": "20779043",
                 "event_type": "game",
                 "event_id": 288541,
@@ -5430,43 +5530,11 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 183,
-                "odds": -110,
-                "value": 98.5,
-                "is_live": true,
-                "deeplink_id": "ML2591757347",
-                "line_status": "opener",
-                "bet_info": {
-                  "tickets": {
-                    "value": 0,
-                    "percent": 0
-                  },
-                  "money": {
-                    "value": 0,
-                    "percent": 0
-                  }
-                },
-                "prop_type_id": 166,
-                "odds_coefficient_score": null,
-                "is_alt_market": false
-              },
-              {
-                "outcome_id": "2591757335",
-                "market_id": "20779035",
-                "event_type": "game",
-                "event_id": 288541,
-                "league_id": 4,
-                "book_id": 1901,
-                "book_parent_id": 201,
-                "type": "core_bet_type_6_team_score",
-                "option_type_id": 1,
-                "side": "over",
-                "period": "event",
-                "team_id": 175,
                 "odds": -105,
-                "value": 115.5,
+                "value": 94.5,
                 "is_live": true,
-                "deeplink_id": "ML2591757335",
-                "line_status": "opener",
+                "deeplink_id": "ML2591757348",
+                "line_status": "normal",
                 "bet_info": {
                   "tickets": {
                     "value": 0,
@@ -5482,8 +5550,8 @@
                 "is_alt_market": false
               },
               {
-                "outcome_id": "2591757349",
-                "market_id": "20779043",
+                "outcome_id": "2591757336",
+                "market_id": "20779035",
                 "event_type": "game",
                 "event_id": 288541,
                 "league_id": 4,
@@ -5492,45 +5560,77 @@
                 "type": "core_bet_type_6_team_score",
                 "option_type_id": 1,
                 "side": "over",
-                "period": "event",
-                "team_id": 183,
-                "odds": -120,
-                "value": 98.5,
-                "is_live": true,
-                "deeplink_id": "ML2591757349",
-                "line_status": "opener",
-                "bet_info": {
-                  "tickets": {
-                    "value": 0,
-                    "percent": 0
-                  },
-                  "money": {
-                    "value": 0,
-                    "percent": 0
-                  }
-                },
-                "prop_type_id": 166,
-                "odds_coefficient_score": null,
-                "is_alt_market": false
-              },
-              {
-                "outcome_id": "2591757337",
-                "market_id": "20779035",
-                "event_type": "game",
-                "event_id": 288541,
-                "league_id": 4,
-                "book_id": 1901,
-                "book_parent_id": 201,
-                "type": "core_bet_type_6_team_score",
-                "option_type_id": 2,
-                "side": "under",
                 "period": "event",
                 "team_id": 175,
                 "odds": -125,
-                "value": 115.5,
+                "value": 118.5,
                 "is_live": true,
-                "deeplink_id": "ML2591757337",
-                "line_status": "opener",
+                "deeplink_id": "ML2591757336",
+                "line_status": "normal",
+                "bet_info": {
+                  "tickets": {
+                    "value": 0,
+                    "percent": 0
+                  },
+                  "money": {
+                    "value": 0,
+                    "percent": 0
+                  }
+                },
+                "prop_type_id": 166,
+                "odds_coefficient_score": null,
+                "is_alt_market": false
+              },
+              {
+                "outcome_id": "2591757350",
+                "market_id": "20779043",
+                "event_type": "game",
+                "event_id": 288541,
+                "league_id": 4,
+                "book_id": 1901,
+                "book_parent_id": 201,
+                "type": "core_bet_type_6_team_score",
+                "option_type_id": 1,
+                "side": "over",
+                "period": "event",
+                "team_id": 183,
+                "odds": -125,
+                "value": 94.5,
+                "is_live": true,
+                "deeplink_id": "ML2591757350",
+                "line_status": "normal",
+                "bet_info": {
+                  "tickets": {
+                    "value": 0,
+                    "percent": 0
+                  },
+                  "money": {
+                    "value": 0,
+                    "percent": 0
+                  }
+                },
+                "prop_type_id": 166,
+                "odds_coefficient_score": null,
+                "is_alt_market": false
+              },
+              {
+                "outcome_id": "2591757338",
+                "market_id": "20779035",
+                "event_type": "game",
+                "event_id": 288541,
+                "league_id": 4,
+                "book_id": 1901,
+                "book_parent_id": 201,
+                "type": "core_bet_type_6_team_score",
+                "option_type_id": 2,
+                "side": "under",
+                "period": "event",
+                "team_id": 175,
+                "odds": -105,
+                "value": 118.5,
+                "is_live": true,
+                "deeplink_id": "ML2591757338",
+                "line_status": "normal",
                 "bet_info": {
                   "tickets": {
                     "value": 0,
@@ -5559,8 +5659,8 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 183,
-                "odds": -115,
-                "value": 27.5,
+                "odds": -125,
+                "value": 24.5,
                 "is_live": true,
                 "deeplink_id": "ML2591757325",
                 "line_status": "normal",
@@ -5589,8 +5689,8 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 175,
-                "odds": -115,
-                "value": -27.5,
+                "odds": -105,
+                "value": -24.5,
                 "is_live": true,
                 "deeplink_id": "ML2591757326",
                 "line_status": "normal",
@@ -5620,8 +5720,8 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -120,
-                "value": 216.5,
+                "odds": -110,
+                "value": 213.5,
                 "is_live": true,
                 "deeplink_id": "ML2591757318",
                 "line_status": "normal",
@@ -5635,7 +5735,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": 0.054125,
+                "odds_coefficient_score": 0.025183,
                 "is_alt_market": false
               },
               {
@@ -5649,8 +5749,8 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -110,
-                "value": 216.5,
+                "odds": -120,
+                "value": 213.5,
                 "is_live": true,
                 "deeplink_id": "ML2591757319",
                 "line_status": "normal",
@@ -5664,7 +5764,7 @@
                     "percent": 0
                   }
                 },
-                "odds_coefficient_score": -0.12339,
+                "odds_coefficient_score": -0.09445,
                 "is_alt_market": false
               }
             ]
@@ -6375,7 +6475,7 @@
         }
       ],
       "meta": {},
-      "num_bets": 30544,
+      "num_bets": 32756,
       "core_id": 12234560,
       "series": {
         "summary": "Series tied 0-0",
@@ -6477,7 +6577,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 170,
-                "odds": -115,
+                "odds": -113,
                 "value": 115.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -6542,7 +6642,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 161,
-                "odds": 320,
+                "odds": 310,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "",
@@ -7441,7 +7541,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 170,
-                "odds": -118,
+                "odds": -115,
                 "value": 115.5,
                 "is_live": false,
                 "deeplink_id": "ML2586341671",
@@ -7538,7 +7638,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 161,
-                "odds": 320,
+                "odds": 310,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2586341604",
@@ -7568,7 +7668,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 170,
-                "odds": -425,
+                "odds": -400,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2586341605",
@@ -9128,7 +9228,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 170,
-                "odds": -400,
+                "odds": -375,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2586326483",
@@ -9158,7 +9258,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 161,
-                "odds": 305,
+                "odds": 290,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2586326482",
@@ -9252,7 +9352,7 @@
                 "side": "under",
                 "period": "event",
                 "odds": -110,
-                "value": 221.5,
+                "value": 221,
                 "is_live": false,
                 "deeplink_id": "ML2586326576",
                 "line_status": "normal",
@@ -9266,7 +9366,7 @@
                     "percent": 12
                   }
                 },
-                "odds_coefficient_score": 0.156119,
+                "odds_coefficient_score": 0.148383,
                 "is_alt_market": false
               },
               {
@@ -9281,7 +9381,7 @@
                 "side": "over",
                 "period": "event",
                 "odds": -110,
-                "value": 221.5,
+                "value": 221,
                 "is_live": false,
                 "deeplink_id": "ML2586326575",
                 "line_status": "normal",
@@ -9295,7 +9395,7 @@
                     "percent": 88
                   }
                 },
-                "odds_coefficient_score": -0.20374,
+                "odds_coefficient_score": -0.196,
                 "is_alt_market": false
               }
             ]
@@ -9370,7 +9470,7 @@
         }
       ],
       "meta": {},
-      "num_bets": 35946,
+      "num_bets": 37304,
       "core_id": 12222840,
       "series": {
         "summary": "Series tied 0-0",
@@ -9408,7 +9508,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 181,
-                "odds": -110,
+                "odds": -115,
                 "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -9440,7 +9540,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 181,
-                "odds": -112,
+                "odds": -106,
                 "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -9472,7 +9572,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 176,
-                "odds": -120,
+                "odds": -115,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -9504,7 +9604,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 176,
-                "odds": -101,
+                "odds": -107,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -9599,7 +9699,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 176,
-                "odds": -110,
+                "odds": -113,
                 "value": 11.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -9629,7 +9729,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 181,
-                "odds": -110,
+                "odds": -107,
                 "value": -11.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -9660,7 +9760,7 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -110,
+                "odds": -111,
                 "value": 222.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -9898,8 +9998,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 176,
-                "odds": -105,
-                "value": 103.5,
+                "odds": -115,
+                "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2586665679",
                 "line_status": "normal",
@@ -9930,7 +10030,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 181,
-                "odds": -115,
+                "odds": -102,
                 "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "ML2586665671",
@@ -9962,8 +10062,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 176,
-                "odds": -115,
-                "value": 103.5,
+                "odds": -105,
+                "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2586665676",
                 "line_status": "normal",
@@ -9994,7 +10094,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 181,
-                "odds": -105,
+                "odds": -118,
                 "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "ML2586665669",
@@ -10150,8 +10250,8 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -105,
-                "value": 220.5,
+                "odds": -112,
+                "value": 223.5,
                 "is_live": false,
                 "deeplink_id": "ML2576603557",
                 "line_status": "normal",
@@ -10165,7 +10265,7 @@
                     "percent": 6
                   }
                 },
-                "odds_coefficient_score": 0.152186,
+                "odds_coefficient_score": 0.18177,
                 "is_alt_market": false
               },
               {
@@ -10179,8 +10279,8 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -115,
-                "value": 220.5,
+                "odds": -108,
+                "value": 223.5,
                 "is_live": false,
                 "deeplink_id": "ML2576603458",
                 "line_status": "normal",
@@ -10194,7 +10294,7 @@
                     "percent": 94
                   }
                 },
-                "odds_coefficient_score": -0.19927,
+                "odds_coefficient_score": -0.2293,
                 "is_alt_market": false
               }
             ]
@@ -10436,7 +10536,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 176,
-                "odds": -120,
+                "odds": -115,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2580151951",
@@ -10468,7 +10568,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 176,
-                "odds": -105,
+                "odds": -110,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2580151949",
@@ -10595,7 +10695,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 181,
-                "odds": -110,
+                "odds": -105,
                 "value": -11.5,
                 "is_live": false,
                 "deeplink_id": "ML2580151833",
@@ -10610,7 +10710,7 @@
                     "percent": 75
                   }
                 },
-                "odds_coefficient_score": 0.884187,
+                "odds_coefficient_score": 0.872572,
                 "is_alt_market": false
               },
               {
@@ -10625,7 +10725,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 176,
-                "odds": -110,
+                "odds": -115,
                 "value": 11.5,
                 "is_live": false,
                 "deeplink_id": "ML2580151830",
@@ -10640,7 +10740,7 @@
                     "percent": 25
                   }
                 },
-                "odds_coefficient_score": 0.163433,
+                "odds_coefficient_score": 0.174507,
                 "is_alt_market": false
               }
             ],
@@ -11040,7 +11140,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 181,
-                "odds": -115,
+                "odds": -114,
                 "value": 116.5,
                 "is_live": false,
                 "deeplink_id": "ML2576715869",
@@ -11136,7 +11236,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 181,
-                "odds": -105,
+                "odds": -106,
                 "value": 116.5,
                 "is_live": false,
                 "deeplink_id": "ML2576715919",
@@ -11169,7 +11269,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 176,
-                "odds": 450,
+                "odds": 460,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2576756685",
@@ -11199,7 +11299,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 181,
-                "odds": -600,
+                "odds": -620,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2576756700",
@@ -11676,7 +11776,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 176,
-                "odds": -118,
+                "odds": -122,
                 "value": 104.5,
                 "is_live": false,
                 "deeplink_id": "ML2577302745",
@@ -11708,8 +11808,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 181,
-                "odds": -113,
-                "value": 116.5,
+                "odds": -122,
+                "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "ML2577302697",
                 "line_status": "normal",
@@ -11740,8 +11840,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 181,
-                "odds": -118,
-                "value": 116.5,
+                "odds": -109,
+                "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "ML2577302676",
                 "line_status": "normal",
@@ -11772,7 +11872,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 176,
-                "odds": -113,
+                "odds": -109,
                 "value": 104.5,
                 "is_live": false,
                 "deeplink_id": "ML2577302758",
@@ -11805,7 +11905,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 176,
-                "odds": 425,
+                "odds": 430,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2576569693",
@@ -11835,7 +11935,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 181,
-                "odds": -590,
+                "odds": -625,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2576569677",
@@ -11867,7 +11967,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 176,
-                "odds": -112,
+                "odds": -110,
                 "value": 11,
                 "is_live": false,
                 "deeplink_id": "ML2576569607",
@@ -11882,7 +11982,7 @@
                     "percent": 25
                   }
                 },
-                "odds_coefficient_score": 0.17952,
+                "odds_coefficient_score": 0.175028,
                 "is_alt_market": false
               },
               {
@@ -11897,7 +11997,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 181,
-                "odds": -109,
+                "odds": -110,
                 "value": -11,
                 "is_live": false,
                 "deeplink_id": "ML2576569517",
@@ -11912,7 +12012,7 @@
                     "percent": 75
                   }
                 },
-                "odds_coefficient_score": 0.870313,
+                "odds_coefficient_score": 0.872592,
                 "is_alt_market": false
               }
             ],
@@ -11928,8 +12028,8 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -112,
-                "value": 221.5,
+                "odds": -109,
+                "value": 222,
                 "is_live": false,
                 "deeplink_id": "ML2576569761",
                 "line_status": "normal",
@@ -11943,7 +12043,7 @@
                     "percent": 6
                   }
                 },
-                "odds_coefficient_score": 0.151627,
+                "odds_coefficient_score": 0.166056,
                 "is_alt_market": false
               },
               {
@@ -11957,8 +12057,8 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -109,
-                "value": 221.5,
+                "odds": -112,
+                "value": 222,
                 "is_live": false,
                 "deeplink_id": "ML2576569715",
                 "line_status": "normal",
@@ -11972,7 +12072,7 @@
                     "percent": 94
                   }
                 },
-                "odds_coefficient_score": -0.20146,
+                "odds_coefficient_score": -0.21589,
                 "is_alt_market": false
               }
             ]
@@ -11994,7 +12094,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 176,
-                "odds": -110,
+                "odds": -115,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2589330927",
@@ -12026,7 +12126,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 176,
-                "odds": -120,
+                "odds": -115,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2589330926",
@@ -12058,8 +12158,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 181,
-                "odds": -120,
-                "value": 116.5,
+                "odds": -115,
+                "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "ML2589330928",
                 "line_status": "normal",
@@ -12090,8 +12190,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 181,
-                "odds": -110,
-                "value": 116.5,
+                "odds": -115,
+                "value": 117.5,
                 "is_live": false,
                 "deeplink_id": "ML2589330929",
                 "line_status": "normal",
@@ -12123,7 +12223,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 176,
-                "odds": 420,
+                "odds": 400,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2576581190",
@@ -12153,7 +12253,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 181,
-                "odds": -575,
+                "odds": -550,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2576581167",
@@ -12365,7 +12465,7 @@
         }
       ],
       "meta": {},
-      "num_bets": 1277,
+      "num_bets": 1287,
       "core_id": 12222910,
       "series": {
         "summary": "CLE leads 1-0",
@@ -14989,7 +15089,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 166,
-                "odds": 260,
+                "odds": 265,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588272810",
@@ -15019,7 +15119,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 167,
-                "odds": -330,
+                "odds": -340,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588272809",
@@ -15113,7 +15213,7 @@
                 "side": "over",
                 "period": "event",
                 "odds": -110,
-                "value": 223,
+                "value": 222.5,
                 "is_live": false,
                 "deeplink_id": "ML2588273376",
                 "line_status": "normal",
@@ -15127,7 +15227,7 @@
                     "percent": 85
                   }
                 },
-                "odds_coefficient_score": -0.22647,
+                "odds_coefficient_score": -0.21898,
                 "is_alt_market": false
               },
               {
@@ -15142,7 +15242,7 @@
                 "side": "under",
                 "period": "event",
                 "odds": -110,
-                "value": 223,
+                "value": 222.5,
                 "is_live": false,
                 "deeplink_id": "ML2588273377",
                 "line_status": "normal",
@@ -15156,7 +15256,7 @@
                     "percent": 15
                   }
                 },
-                "odds_coefficient_score": 0.178852,
+                "odds_coefficient_score": 0.171356,
                 "is_alt_market": false
               }
             ]
@@ -15231,7 +15331,7 @@
         }
       ],
       "meta": {},
-      "num_bets": 1141,
+      "num_bets": 1166,
       "core_id": 12222830,
       "series": {
         "summary": "NYK leads 1-0",
@@ -15301,7 +15401,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 162,
-                "odds": -117,
+                "odds": -116,
                 "value": 111.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -15333,7 +15433,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 159,
-                "odds": -110,
+                "odds": -112,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -15365,7 +15465,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 162,
-                "odds": -105,
+                "odds": -106,
                 "value": 111.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -15398,7 +15498,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 159,
-                "odds": 185,
+                "odds": 190,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "",
@@ -15428,7 +15528,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 162,
-                "odds": -225,
+                "odds": -235,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "",
@@ -15490,7 +15590,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 162,
-                "odds": -110,
+                "odds": -112,
                 "value": -5.5,
                 "is_live": false,
                 "deeplink_id": "",
@@ -15791,7 +15891,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 162,
-                "odds": -105,
+                "odds": -108,
                 "value": 111.5,
                 "is_live": false,
                 "deeplink_id": "ML2589535612",
@@ -15855,7 +15955,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 162,
-                "odds": -115,
+                "odds": -112,
                 "value": 111.5,
                 "is_live": false,
                 "deeplink_id": "ML2589535613",
@@ -15888,7 +15988,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 162,
-                "odds": -225,
+                "odds": -238,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588555704",
@@ -15918,7 +16018,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 159,
-                "odds": 185,
+                "odds": 195,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588555705",
@@ -16076,7 +16176,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 159,
-                "odds": 190,
+                "odds": 195,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588566187",
@@ -16106,7 +16206,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 162,
-                "odds": -230,
+                "odds": -240,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588566190",
@@ -16297,7 +16397,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 159,
-                "odds": -118,
+                "odds": -120,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2588565875",
@@ -16329,7 +16429,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 159,
-                "odds": -110,
+                "odds": -105,
                 "value": 105.5,
                 "is_live": false,
                 "deeplink_id": "ML2588565880",
@@ -16394,7 +16494,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 159,
-                "odds": 185,
+                "odds": 190,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588565667",
@@ -16424,7 +16524,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 162,
-                "odds": -225,
+                "odds": -235,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588565675",
@@ -16901,7 +17001,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 159,
-                "odds": -115,
+                "odds": -118,
                 "value": 106.5,
                 "is_live": false,
                 "deeplink_id": "ML2588627275",
@@ -16933,7 +17033,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 162,
-                "odds": -108,
+                "odds": -110,
                 "value": 111.5,
                 "is_live": false,
                 "deeplink_id": "ML2588627046",
@@ -16965,7 +17065,7 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 162,
-                "odds": -112,
+                "odds": -110,
                 "value": 111.5,
                 "is_live": false,
                 "deeplink_id": "ML2588627047",
@@ -16997,7 +17097,7 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 159,
-                "odds": -105,
+                "odds": -104,
                 "value": 106.5,
                 "is_live": false,
                 "deeplink_id": "ML2588627274",
@@ -17978,7 +18078,7 @@
                 "side": "over",
                 "period": "event",
                 "odds": -110,
-                "value": 217.5,
+                "value": 217,
                 "is_live": false,
                 "deeplink_id": "ML2588566823",
                 "line_status": "normal",
@@ -17992,7 +18092,7 @@
                     "percent": 94
                   }
                 },
-                "odds_coefficient_score": -0.13993,
+                "odds_coefficient_score": -0.13168,
                 "is_alt_market": false
               },
               {
@@ -18007,7 +18107,7 @@
                 "side": "under",
                 "period": "event",
                 "odds": -110,
-                "value": 217.5,
+                "value": 217,
                 "is_live": false,
                 "deeplink_id": "ML2588566822",
                 "line_status": "normal",
@@ -18021,7 +18121,7 @@
                     "percent": 6
                   }
                 },
-                "odds_coefficient_score": 0.092311,
+                "odds_coefficient_score": 0.084065,
                 "is_alt_market": false
               }
             ]
@@ -18096,7 +18196,7 @@
         }
       ],
       "meta": {},
-      "num_bets": 1580,
+      "num_bets": 1620,
       "core_id": 12223010,
       "series": {
         "summary": "DEN leads 1-0",
@@ -18198,8 +18298,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 174,
-                "odds": -110,
-                "value": 119,
+                "odds": -104,
+                "value": 119.5,
                 "is_live": false,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -18230,8 +18330,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 174,
-                "odds": -115,
-                "value": 119,
+                "odds": -117,
+                "value": 119.5,
                 "is_live": false,
                 "deeplink_id": "",
                 "line_status": "normal",
@@ -19798,8 +19898,8 @@
                 "side": "over",
                 "period": "event",
                 "team_id": 174,
-                "odds": -115,
-                "value": 118.5,
+                "odds": -104,
+                "value": 119.5,
                 "is_live": false,
                 "deeplink_id": "ML2588631501",
                 "line_status": "normal",
@@ -19830,8 +19930,8 @@
                 "side": "under",
                 "period": "event",
                 "team_id": 174,
-                "odds": -105,
-                "value": 118.5,
+                "odds": -115,
+                "value": 119.5,
                 "is_live": false,
                 "deeplink_id": "ML2588631502",
                 "line_status": "normal",
@@ -19895,7 +19995,7 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 174,
-                "odds": -255,
+                "odds": -260,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588402286",
@@ -19925,7 +20025,7 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 171,
-                "odds": 210,
+                "odds": 215,
                 "value": 0,
                 "is_live": false,
                 "deeplink_id": "ML2588402285",
@@ -22492,7 +22592,7 @@
                 "type": "total",
                 "side": "under",
                 "period": "event",
-                "odds": -110,
+                "odds": -112,
                 "value": 217.5,
                 "is_live": false,
                 "deeplink_id": "ML2591648927",
@@ -22507,7 +22607,7 @@
                     "percent": 16
                   }
                 },
-                "odds_coefficient_score": 0.092311,
+                "odds_coefficient_score": 0.087819,
                 "is_alt_market": false
               },
               {
@@ -22521,7 +22621,7 @@
                 "type": "total",
                 "side": "over",
                 "period": "event",
-                "odds": -110,
+                "odds": -108,
                 "value": 217.5,
                 "is_live": false,
                 "deeplink_id": "ML2591648924",
@@ -22536,7 +22636,7 @@
                     "percent": 84
                   }
                 },
-                "odds_coefficient_score": -0.13993,
+                "odds_coefficient_score": -0.13535,
                 "is_alt_market": false
               }
             ]
@@ -23075,7 +23175,7 @@
         }
       ],
       "meta": {},
-      "num_bets": 782,
+      "num_bets": 802,
       "core_id": 12222850,
       "series": {
         "summary": "LAL leads 1-0",
@@ -23982,8 +24082,8 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 178,
-                "odds": -105,
-                "value": -5,
+                "odds": -110,
+                "value": -4.5,
                 "is_live": false,
                 "deeplink_id": "ML2588795229",
                 "line_status": "normal",
@@ -23997,7 +24097,7 @@
                     "percent": 26
                   }
                 },
-                "odds_coefficient_score": 0.664106,
+                "odds_coefficient_score": 0.658175,
                 "is_alt_market": false
               },
               {
@@ -24012,8 +24112,8 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 186,
-                "odds": -115,
-                "value": 5,
+                "odds": -110,
+                "value": 4.5,
                 "is_live": false,
                 "deeplink_id": "ML2588795232",
                 "line_status": "normal",
@@ -24027,7 +24127,7 @@
                     "percent": 74
                   }
                 },
-                "odds_coefficient_score": 0.382973,
+                "odds_coefficient_score": 0.389445,
                 "is_alt_market": false
               }
             ],
@@ -24618,8 +24718,8 @@
                 "side": "home",
                 "period": "event",
                 "team_id": 186,
-                "odds": -115,
-                "value": 5,
+                "odds": -110,
+                "value": 4.5,
                 "is_live": false,
                 "deeplink_id": "ML2588794199",
                 "line_status": "normal",
@@ -24633,7 +24733,7 @@
                     "percent": 74
                   }
                 },
-                "odds_coefficient_score": 0.382973,
+                "odds_coefficient_score": 0.389445,
                 "is_alt_market": false
               },
               {
@@ -24648,8 +24748,8 @@
                 "side": "away",
                 "period": "event",
                 "team_id": 178,
-                "odds": -105,
-                "value": -5,
+                "odds": -110,
+                "value": -4.5,
                 "is_live": false,
                 "deeplink_id": "ML2588794198",
                 "line_status": "normal",
@@ -24663,7 +24763,7 @@
                     "percent": 26
                   }
                 },
-                "odds_coefficient_score": 0.664106,
+                "odds_coefficient_score": 0.658175,
                 "is_alt_market": false
               }
             ],
